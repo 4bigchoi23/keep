@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import Home from '../components/Home'
+import Keep from '../components/Keep'
 
 export default function Index() {
   return (
     <Layout>
-      <Home />
+      <Keep />
     </Layout>
   )
 }
