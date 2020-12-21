@@ -5,7 +5,13 @@ import Keep from '../components/Keep'
 export default function Index() {
   return (
     <Layout>
-      <Keep />
+      <div className="container-lg py-3">
+        <div className="row">
+          <div className="col">
+            <Keep />
+          </div>
+        </div>
+      </div>
     </Layout>
   )
 }
