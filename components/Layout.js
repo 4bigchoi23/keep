@@ -49,7 +49,7 @@ export default function Layout(props) {
 
                     <Dropdown.Menu>
                       <Dropdown.Item href="/settings/profile">Settings</Dropdown.Item>
-                      <Dropdown.Item href="/" onClick={signout}>Sign out</Dropdown.Item>
+                      <Dropdown.Item as="button" onClick={signout}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
