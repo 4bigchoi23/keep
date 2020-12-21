@@ -6,5 +6,17 @@ module.exports = withSass({
 
 module.exports = {
   /* config options here */
-  env: {},
+  env: {
+    title: 'Keep',
+    guest: {
+      name: 'Guest',
+      email: 'guest@anonymous.users',
+      image: '/pfimg.svg'
+    },
+    sneak: {
+      name: 'Sneak',
+      email: 'sneak@anonymous.users',
+      image: '/pfimg.svg'
+    },
+  },
 }
