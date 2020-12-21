@@ -8,6 +8,7 @@ export default function Keep(props) {
   const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET });
 
   const [ session, loading ] = useSession()
+  const isUser = session ? true : false
   const userId = session ? session.user.id : ''
   
   const [docs, setDocs] = useState([])
@@ -28,7 +29,11 @@ export default function Keep(props) {
                 {
                   instance: q.Get(q.Var('ref')),
                   userrefs: q.Select(['data', 'user'], q.Var('instance'), ""),
-                  userdata: { name: "Guest", email: "guest@anonymous.users", image: "" }
+                  userdata: {
+                    name: process.env.guest.name,
+                    email: process.env.guest.email,
+                    image: process.env.guest.image
+                  }
                 },
                 {
                   _id: q.Select(['id'], q.Var('ref')),
@@ -99,11 +104,12 @@ export default function Keep(props) {
   })
 
   return (
-    <div className="container">
+    <div>
       <KeepForm
+        isUser={isUser}
         onCreate={(i, e) => createKeep(i, e)}
       />
-      <hr />
+
       <div>
         {!docs ? (
           <p>Loading...</p>
@@ -115,9 +121,9 @@ export default function Keep(props) {
                   _id={entry._id}
                   _ts={entry._ts}
                   user={entry.data.user}
-                  name={entry.info.name}
-                  email={entry.info.email}
-                  image={entry.info.image}
+                  name={entry.info.name ? entry.info.name : process.env.sneak.name}
+                  email={entry.info.email ? entry.info.email : process.env.sneak.email}
+                  image={entry.info.image ? entry.info.image : process.env.sneak.image}
                   keep={entry.data.keep}
                   slug={entry.data.slug}
                   note={entry.data.note}
@@ -125,7 +131,6 @@ export default function Keep(props) {
                   date={new Date(entry._ts / 1000).toString()}
                   onDelete={(i, e) => deleteKeep(i, e)}
                 />
-                <hr />
               </div>
             )
           })
