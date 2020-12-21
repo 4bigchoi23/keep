@@ -1,0 +1,196 @@
+// Common Utils
+
+.sans-serif { font-family: $font-family-sans-serif !important; }
+.serif { font-family: $font-family-serif !important; }
+.monospace { font-family: $font-family-monospace !important; }
+
+.popover, .tooltip { font-family: inherit !important; }
+
+.resize-none { resize: none; }
+.resize-y { resize: vertical; }
+.resize-x { resize: horizontal; }
+.resize { resize: both; }
+
+.bg-none { background-image: none; }
+
+.bg-fixed { background-attachment: fixed; }
+.bg-local { background-attachment: local; }
+.bg-scroll { background-attachment: scroll; }
+
+.bg-clip-border { background-clip: border-box; }
+.bg-clip-padding { background-clip: padding-box; }
+.bg-clip-content { background-clip: content-box; }
+.bg-clip-text { background-clip: text; }
+
+.bg-bottom { background-position: bottom; }
+.bg-center { background-position: center; }
+.bg-left { background-position: left; }
+.bg-left-bottom { background-position: left bottom; }
+.bg-left-top { background-position: left top; }
+.bg-right { background-position: right; }
+.bg-right-bottom { background-position: right bottom; }
+.bg-right-top { background-position: right top; }
+.bg-top { background-position: top; }
+
+.bg-repeat { background-repeat: repeat; }
+.bg-no-repeat { background-repeat: no-repeat; }
+.bg-repeat-x { background-repeat: repeat-x; }
+.bg-repeat-y { background-repeat: repeat-y; }
+.bg-repeat-round { background-repeat: round; }
+.bg-repeat-space { background-repeat: space; }
+
+.bg-auto { background-size: auto; }
+.bg-cover { background-size: cover; }
+.bg-contain { background-size: contain; }
+
+.border-none {  border: none !important ; }
+.border-transparent { border-color: transparent !important; }
+
+@each $name, $color in $grays {
+  .text-gray-#{$name} {
+    color: $color;
+  }
+  .bg-gray-#{$name} {
+    background-color: $color;
+  }
+}
+
+@for $i from 0 to 11 {
+  .opacity-#{$i * 10} {
+      opacity: ($i * 10) / 100;
+  }
+  @if ($i < 10) {
+      .opacity-#{$i * 10 + 5} {
+          opacity: ($i * 10 + 5) / 100;
+      }
+  }
+}
+
+.left-0 { left: 0; }
+.right-0 { right: 0; }
+.top-0 { top: 0; }
+.bottom-0 { bottom: 0; }
+
+.cursor-alias { cursor: alias !important; }
+.cursor-all-scroll { cursor: all-scroll !important; }
+.cursor-auto { cursor: auto !important; }
+.cursor-cell { cursor: cell !important; }
+.cursor-context-menu { cursor: context-menu !important; }
+.cursor-col-resize { cursor: col-resize !important; }
+.cursor-copy { cursor: copy !important; }
+.cursor-crosshair { cursor: crosshair !important; }
+.cursor-default { cursor: default !important; }
+.cursor-e-resize { cursor: e-resize !important; }
+.cursor-ew-resize { cursor: ew-resize !important; }
+.cursor-grab { cursor: grab !important; }
+.cursor-grabbing { cursor: grabbing !important; }
+.cursor-help { cursor: help !important; }
+.cursor-move { cursor: move !important; }
+.cursor-n-resize { cursor: n-resize !important; }
+.cursor-ne-resize { cursor: ne-resize !important; }
+.cursor-nesw-resize { cursor: nesw-resize !important; }
+.cursor-ns-resize { cursor: ns-resize !important; }
+.cursor-nw-resize { cursor: nw-resize !important; }
+.cursor-nwse-resize { cursor: nwse-resize !important; }
+.cursor-no-drop { cursor: no-drop !important; }
+.cursor-none { cursor: none !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+.cursor-pointer { cursor: pointer !important; }
+.cursor-progress { cursor: progress !important; }
+.cursor-row-resize { cursor: row-resize !important; }
+.cursor-s-resize { cursor: s-resize !important; }
+.cursor-se-resize { cursor: se-resize !important; }
+.cursor-sw-resize { cursor: sw-resize !important; }
+.cursor-text { cursor: text !important; }
+.cursor-w-resize { cursor: w-resize !important; }
+.cursor-wait { cursor: wait !important; }
+.cursor-zoom-in { cursor: zoom-in !important; }
+.cursor-zoom-out { cursor: zoom-out !important; }
+
+.line-height-100 { line-height: 1; }
+.line-height-125 { line-height: 1.25; }
+.line-height-150 { line-height: 1.5; }
+
+
+.rotate-45 { 
+  filter: none;
+  -ms-filter: "progid: DXImageTransform.Microsoft.BasicImage(rotation=0.5)";
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.rotate-90 {
+  filter: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.rotate-135 { 
+  filter: none;
+  -ms-filter: "progid: DXImageTransform.Microsoft.BasicImage(rotation=1.5)";
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.rotate-180 {
+  filter: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.rotate-225 { 
+  filter: none;
+  -ms-filter: "progid: DXImageTransform.Microsoft.BasicImage(rotation=2.5)";
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
+  transform: rotate(225deg);
+}
+.rotate-270 {
+  filter: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.rotate-315 {
+  filter: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3.5)";
+  -webkit-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  transform: rotate(315deg);
+}
+.rotate-360 {
+  filter: none;
+}
+.flip-horizontal {
+  filter: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.flip-vertical {
+  filter: none;
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+
+
+.bd-callout {
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #eee;
+  border-left-width: .25rem;
+  border-radius: .25rem;
+}
+
+@each $color, $value in $theme-colors {
+  .bd-callout-#{$color} {
+    border-left-color: $value;
+  }
+}
