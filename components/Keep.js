@@ -68,7 +68,11 @@ export default function Keep(props) {
             keep: data.keep,
             slug: data.slug,
             note: data.note,
-            tags: data.tags
+            tags: data.tags,
+            misc: {
+              ogimage: data.misc.ogimage,
+              favicon: data.misc.favicon
+            }
           }
         },
       )
@@ -128,6 +132,7 @@ export default function Keep(props) {
                   slug={entry.data.slug}
                   note={entry.data.note}
                   tags={entry.data.tags}
+                  misc={entry.data.misc}
                   date={new Date(entry._ts / 1000).toString()}
                   onDelete={(i, e) => deleteKeep(i, e)}
                 />

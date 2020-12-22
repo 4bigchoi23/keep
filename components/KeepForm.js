@@ -1,52 +1,78 @@
 import { useState, useEffect } from 'react'
 
 export default function KeepForm(props) {
-  const [keepHandle, setKeepHandle] = useState('')
-  const [slugHandle, setSlugHandle] = useState('')
-  const [noteHandle, setNoteHandle] = useState('')
-  const [tagsHandle, setTagsHandle] = useState('')
+  const inputs = {
+    keep: '',
+    slug: '',
+    note: '',
+    tags: '',
+    misc: {
+      ogimage: '',
+      favicon: ''
+    }
+  }
+  const [values, setValues] = useState(inputs)
+  const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [pastedKeep, setPastedKeep] = useState(false)
+
+  useEffect(() => {
+    if (pastedKeep) {
+      const uri = values.keep
+      if (uri && uri.indexOf('http') === 0) {
+        setSubmitting(true)
+        fetch(`/api/hello?q=${encodeURIComponent(uri)}`).then((response) => {
+          response.json().then((res) => {
+            let update = {}
+            if (res.title !== undefined) {
+              update.slug = res.title
+            }
+            if (res.description !== undefined) {
+              update.note = res.description
+            }
+            if (res.image !== undefined || res.favicon !== undefined) {
+              update.misc = {}
+              if (res.image !== undefined) {
+                update.misc.ogimage = res.image
+              }
+              if (res.favicon !== undefined) {
+                update.misc.favicon = res.favicon
+              }
+            }
+            setValues({ ...values, ...update })
+          })
+          setSubmitting(false)
+        })
+      }
+      setPastedKeep(false)
+    }
+  }, [values.keep])
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value.trim() })
+  }
 
   function handleSubmit(event) {
     event.preventDefault()
-    if (keepHandle.trim().length === 0) {
+    if (values.keep.length === 0) {
       alert('Please provide a valid keep handle!')
       return
     }
     setSubmitting(true)
-    const data = {
-      keep: keepHandle.trim(),
-      slug: slugHandle.trim(),
-      note: noteHandle.trim(),
-      tags: tagsHandle.trim()
-    }
-    props.onCreate(data, event)
-    setKeepHandle('')
-    setSlugHandle('')
-    setNoteHandle('')
+    props.onCreate({ ...values }, event)
+    setValues(inputs)
     setSubmitting(false)
     return
   }
-
-  function handleKeepChange(event) {
-    setKeepHandle(event.target.value)
+  
+  function handleKeepPaste(event) {
+    setPastedKeep(true)
   }
-  function handleSlugChange(event) {
-    setSlugHandle(event.target.value)
-  }
-  function handleNoteChange(event) {
-    setNoteHandle(event.target.value)
-  }
-  function handleTagsChange(event) {
-    setTagsHandle(event.target.value)
-  }
-
-  function resetHandle(event) {
+ 
+  function handleFormReset(event) {
     event.preventDefault()
-    setKeepHandle('')
-    setSlugHandle('')
-    setNoteHandle('')
-    setTagsHandle('')
+    setValues(inputs)
     return
   }
 
@@ -65,8 +91,9 @@ export default function KeepForm(props) {
                 type="text"
                 name="keep"
                 placeholder="http:// or https://"
-                onChange={handleKeepChange}
-                value={keepHandle}
+                onPaste={handleKeepPaste}
+                onChange={handleChange}
+                value={values.keep}
                 className="form-control"
                 id="handleKeep"
                 required
@@ -79,8 +106,8 @@ export default function KeepForm(props) {
                 type="text"
                 name="slug"
                 placeholder=""
-                onChange={handleSlugChange}
-                value={slugHandle}
+                onChange={handleChange}
+                value={values.slug}
                 className="form-control"
                 required
               />
@@ -93,9 +120,33 @@ export default function KeepForm(props) {
                 cols="50"
                 name="note"
                 placeholder=""
-                onChange={handleNoteChange}
-                value={noteHandle}
+                onChange={handleChange}
+                value={values.note}
                 className="form-control resize-none"
+              />
+            </div>
+
+            <div className="form-group sr-only">
+              <label>misc.ogimage</label>
+              <input
+                type="hidden"
+                name="misc.ogimage"
+                placeholder=""
+                onChange={handleChange}
+                value={values.misc.ogimage}
+                className="form-control"
+              />
+            </div>
+
+            <div className="form-group sr-only">
+              <label>misc.favicon</label>
+              <input
+                type="hidden"
+                name="misc.favicon"
+                placeholder=""
+                onChange={handleChange}
+                value={values.misc.favicon}
+                className="form-control"
               />
             </div>
 
@@ -109,7 +160,7 @@ export default function KeepForm(props) {
               <button
                 type="button"
                 className="btn btn-outline-secondary ml-3"
-                onClick={resetHandle}
+                onClick={handleFormReset}
               >
                 Reset
               </button>

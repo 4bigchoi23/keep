@@ -36,6 +36,8 @@ export default function KeepEntry(props) {
               <div>data.note: {props.note}</div>
               <div>data.tags: {props.tags}</div>
               <div>data.date: {props.date}</div>
+              <div>data.misc.ogimage: {props.misc.ogimage}</div>
+              <div>data.misc.favicon: {props.misc.favicon}</div>
             </code>
           </div>
           <div className="col-12 col-sm-auto">
