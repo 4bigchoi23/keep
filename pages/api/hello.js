@@ -39,8 +39,8 @@ export default (req, res) => {
 
       let icon = ''
       let favicon = ''
-      icon = icon ? icon : $('link[rel$="icon"][href$=".ico"]').eq(0).attr('href')
-      icon = icon ? icon : $('link[rel$="icon"][href$="favicon.png"]').eq(0).attr('href')
+      icon = icon ? icon : $('link[rel$="icon"][href*=".ico"]').eq(0).attr('href')
+      icon = icon ? icon : $('link[rel$="icon"][href*=".png"]').eq(0).attr('href')
       favicon = icon ? url.resolve(uri, icon) : (f ? fav : '')
 
       res.json({
