@@ -1,67 +1,61 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/client'
-import Layout from '../../components/Layout'
-import SettingsNav from '../../components/Settings.Nav'
+import faunadb, { query as q } from "faunadb"
+import Settings from '../../components/Settings'
 
 export default function SettingsImport() {
   const page = 'import'
   const pageName = page.substr(0, 1).toUpperCase() + page.substr(1)
-  
-  const [ session, loading ] = useSession()
-  const user  = session && session.user ? session.user : process.env.guest
-  const id    = user && user.id     ? user.id : ''
-  const name  = user && user.name   ? user.name   : process.env.sneak.name
-  const email = user && user.email  ? user.email  : process.env.sneak.email
-  const image = user && user.image  ? user.image  : process.env.sneak.image
-  const username = ''
-  const password = ''
+  const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET });
 
-  const [nameHandle, setNameHandle] = useState('')
-  const [emailHandle, setEmailHandle] = useState('')
-  
+  const [ session, loading ] = useSession()
+  const user = session && session.user ? session.user : process.env.guest
+  const id = user && user.id ? user.id : ''
+  const name = user && user.name ? user.name : process.env.sneak.name
+  const email = user && user.email ? user.email : process.env.sneak.email
+  const image = user && user.image ? user.image : process.env.sneak.image
+  const username = user && user.username ? user.username : ''
+
+  const inputs = {}
+
+  const [values, setValues] = useState(inputs)
+  const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value.trim() })
+  }
+
   function handleSubmit(event) {
     event.preventDefault()
+    setSubmitting(true)
+    console.log(values)
+    setSubmitting(false)
   }
-  function handleNameChange(event) {
-    setNameHandle(event.target.value)
-  }
-  function handleEmailChange(event) {
-    setEmailHandle(event.target.value)
-  }
-
-  useEffect(() => {
-    setNameHandle(name)
-    setEmailHandle(email)
-  }, [name, email])
 
   return (
-    <Layout>
+    <Settings
+      page={page}
+      pageName={pageName}
+    >
       <Head>
         <title>Settings / {pageName}</title>
       </Head>
-      <div className="container-lg py-3">
-        <div className="row">
-          <div className="col-12 col-sm-3 mb-3 mb-sm-0">
-            <SettingsNav
-              name={name}
-              email={email}
-              image={image}
-              active={page}
-            />
-          </div>
-          <div className="col-12 col-sm-9">
-            <h2>{pageName}</h2>
-            <div>
-              Hi, There!
-            </div>
-            <hr/>
-            <form action="">
-            </form>
-          </div>
+
+      <div>
+        <h2 className="m-0">{pageName}</h2>
+        <div>
+          <small>Hi, There!</small>
         </div>
+        <hr/>
+        <form
+          onSubmit={handleSubmit}
+          disabled={submitting && 'disabled'}
+        >
+        </form>
       </div>
-    </Layout>
+    </Settings>
   )
 }
