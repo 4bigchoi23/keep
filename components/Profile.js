@@ -1,4 +1,4 @@
-import { session, useSession } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 
 const ProfileID = (props) => {
   const [ session, loading ] = useSession()
@@ -71,7 +71,7 @@ const ProfileUsername = (props) => {
   const username = props.value !== undefined
     ? props.value
     : (session && !loading
-        ? (session.user?.username || '')
+        ? session.user?.username || ''
         : ''
       )
   return username
