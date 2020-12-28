@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/client'
 import faunadb, { query as q } from "faunadb"
 import Settings from '../../components/Settings'
+import crypto from 'crypto'
 
 export default function SettingsSecurity() {
   const page = 'security'
@@ -16,31 +17,121 @@ export default function SettingsSecurity() {
   const email = user && user.email ? user.email : process.env.sneak.email
   const image = user && user.image ? user.image : process.env.sneak.image
   const username = user && user.username ? user.username : ''
+  const password = user && user.password ? user.password : ''
   const user_old_password = ''
   const user_new_password = ''
   const user_cfm_password = ''
+  const passwordMinLength = 4
 
   const inputs = {
+    password,
     user_old_password,
     user_new_password,
     user_cfm_password,
   }
 
+  const [protos, setProtos] = useState(inputs)
   const [values, setValues] = useState(inputs)
   const [errors, setErrors] = useState({})
+  const [valids, setValids] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [vitalizing, setVitalizing] = useState(false)
 
   const handleChange = (event) => {
     const { name, value } = event.target
-    setValues({ ...values, [name]: value.trim() })
+    setValues({ ...values, [name]: value })
   }
 
   function handleSubmit(event) {
     event.preventDefault()
     setSubmitting(true)
-    console.log(values)
-    setSubmitting(false)
+    // 비밀번호 암호화
+    // const old_pass = values.user_old_password
+    // const new_pass = values.user_new_password
+    const old_pass = crypto.createHash('sha512').update(values.user_old_password).digest('base64')
+    const new_pass = crypto.createHash('sha512').update(values.user_new_password).digest('base64')
+    if (!values.password || (values.password && values.password === old_pass)) {
+      // 비밀번호 업데이트
+      client.query(
+        q.Update(
+          q.Select([0], q.Paginate(q.Match(q.Index("index_users_id"), id))),
+          {
+            data: {
+              password: new_pass,
+            }
+          }
+        )
+      )
+      .then((res) => {
+        // console.log(res)
+        const i = {
+          password: new_pass,
+          user_old_password: '',
+          user_new_password: '',
+          user_cfm_password: '',
+        }
+        setValues(i)
+        setProtos(i)
+        setValids({})
+        setErrors({})
+        setSubmitting(false)
+        setVitalizing(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        alert('🤷‍♀️')
+      })
+    } else {
+      // 기존 비밀번호가 일치하지 않습니다.
+      alert('현재 사용하시는 비밀번호를 올바로 입력하세요!')
+    }
   }
+
+  useEffect(() => {
+    setValues(inputs)
+    setProtos(inputs)
+  }, [loading])
+
+  useEffect(() => {
+    let vit = false
+    let val = { newpass: '', confirm: '' }
+    let err = { newpass: '', confirm: '' }
+
+    const nb = values.user_new_password.match(/[0-9]/g) || []
+    const cl = values.user_new_password.match(/[a-z]/g) || []
+    const cu = values.user_new_password.match(/[A-Z]/g) || []
+
+    if (JSON.stringify(protos) !== JSON.stringify(values)) {
+      if (values.user_new_password.length < passwordMinLength) {
+        vit = false
+        val.newpass = 'is-invalid'
+        err.newpass = passwordMinLength + '자 이상 입력하세요.'
+      } else {
+        if (nb.length && cl.length) {
+          vit = true
+          val.newpass = 'is-valid'
+          err.newpass = ''
+        } else {
+          vit = false
+          val.newpass = 'is-invalid'
+          err.newpass = '숫자와 영문자가 각각 하나 이상 포함되어야 합니다.'
+        }
+      }
+      if (values.user_new_password === values.user_cfm_password) {
+        vit = true
+        val.confirm = 'is-valid'
+        err.confirm = ''
+      } else {
+        vit = false
+        val.confirm = 'is-invalid'
+        err.confirm = '비밀번호 확인이 일치하지 않습니다.'
+      }
+    }
+
+    setVitalizing(vit)
+    setValids({ ...valids, ...val })
+    setErrors({ ...errors, ...err })
+  }, [values.user_new_password, values.user_cfm_password])
 
   return (
     <Settings
@@ -58,7 +149,8 @@ export default function SettingsSecurity() {
         <hr/>
         <form
           onSubmit={handleSubmit}
-          disabled={submitting && 'disabled'}
+          disabled={submitting && true}
+          autoComplete="off"
         >
           <div className="form-group">
             <label htmlFor="">Old password</label>
@@ -66,9 +158,10 @@ export default function SettingsSecurity() {
               type="password"
               name="user_old_password"
               className="form-control"
-              value={values.password}
+              value={values.user_old_password}
               onChange={handleChange}
               autoComplete="new-password"
+              disabled={submitting || loading || !values.password && true}
             />
           </div>
           <div className="form-group">
@@ -76,27 +169,32 @@ export default function SettingsSecurity() {
             <input
               type="password"
               name="user_new_password"
-              className="form-control"
-              value={values.password}
+              className={`form-control ${valids.newpass}`}
+              value={values.user_new_password}
               onChange={handleChange}
               autoComplete="new-password"
+              disabled={submitting || loading && true}
             />
+            <small className="d-block form-text text-danger">{errors.newpass}</small>
           </div>
           <div className="form-group">
             <label htmlFor="">Confirm new password</label>
             <input
               type="password"
               name="user_cfm_password"
-              className="form-control"
-              value={values.password}
+              className={`form-control ${valids.confirm}`}
+              value={values.user_cfm_password}
               onChange={handleChange}
               autoComplete="new-password"
+              disabled={submitting || loading || values.user_new_password.length < passwordMinLength && true}
             />
+            <small className="d-block form-text text-danger">{errors.confirm}</small>
           </div>
           <div className="mt-5">
             <button
               type="submit"
               className="btn btn-success"
+              disabled={submitting || loading || !vitalizing && true}
             >
               <span>Update password</span>
             </button>

@@ -15,33 +15,70 @@ export default function SettingsProfile() {
   const name = user && user.name ? user.name : process.env.sneak.name
   const email = user && user.email ? user.email : process.env.sneak.email
   const image = user && user.image ? user.image : process.env.sneak.image
-  const username = user && user.username ? user.username : id
+  const username = user && user.username ? user.username : ''
+  const bio = user && user.bio ? user.bio : ''
+  const url = user && user.url ? user.url : ''
 
   const inputs = {
     name,
     email,
     image,
+    bio,
+    url,
   }
 
+  const [protos, setProtos] = useState(inputs)
   const [values, setValues] = useState(inputs)
   const [errors, setErrors] = useState({})
+  const [valids, setValids] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [vitalizing, setVitalizing] = useState(false)
 
+  var timer
   const handleChange = (event) => {
     const { name, value } = event.target
-    setValues({ ...values, [name]: value.trim() })
+    setValues({ ...values, [name]: value })
   }
 
   function handleSubmit(event) {
     event.preventDefault()
     setSubmitting(true)
-    console.log(values)
-    setSubmitting(false)
+    client.query(
+      q.Update(
+        q.Select([0], q.Paginate(q.Match(q.Index("index_users_id"), id))),
+        {
+          data: {
+            name: values.name.trim(),
+            bio: values.bio.trim(),
+            url: values.url.trim(),
+          }
+        }
+      )
+    )
+    .then((res) => {
+      // console.log(res)
+      setSubmitting(false)
+      setVitalizing(false)
+      setProtos(values)
+    })
+    .catch((err) => {
+      console.log(err)
+      alert('🤷‍♀️')
+    })
   }
 
   useEffect(() => {
     setValues(inputs)
+    setProtos(inputs)
   }, [loading])
+
+  useEffect(() => {
+    if (JSON.stringify(protos) !== JSON.stringify(values)) {
+      setVitalizing(true)
+    } else {
+      setVitalizing(false)
+    }
+  }, [values])
 
   return (
     <Settings
@@ -60,7 +97,7 @@ export default function SettingsProfile() {
         <hr/>
         <form
           onSubmit={handleSubmit}
-          disabled={submitting && 'disabled'}
+          disabled={submitting && true}
         >
           <div className="row">
             <div className="col-12 col-sm-9">
@@ -72,6 +109,7 @@ export default function SettingsProfile() {
                   className="form-control"
                   value={values.name}
                   onChange={handleChange}
+                  disabled={submitting || loading && true}
                 />
               </div>
               <div className="form-group">
@@ -82,7 +120,30 @@ export default function SettingsProfile() {
                   className="form-control"
                   value={values.email}
                   onChange={handleChange}
+                  disabled={submitting || loading && true}
                   readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Bio</label>
+                <textarea
+                  name="bio"
+                  className="form-control resize-none"
+                  value={values.bio}
+                  onChange={handleChange}
+                  disabled={submitting || loading && true}
+                >
+                </textarea>
+              </div>
+              <div className="form-group">
+                <label htmlFor="">Url</label>
+                <input
+                  type="test"
+                  name="url"
+                  className="form-control"
+                  value={values.url}
+                  onChange={handleChange}
+                  disabled={submitting || loading && true}
                 />
               </div>
             </div>
@@ -100,7 +161,11 @@ export default function SettingsProfile() {
             </div>
           </div>
           <div className="mt-3">
-            <button type="submit" className="btn btn-success">
+            <button
+              type="submit"
+              className="btn btn-success"
+              disabled={submitting || loading || !vitalizing && true}
+            >
               <span>Update profile</span>
             </button>
           </div>

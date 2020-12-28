@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import React, { useState, useEffect } from 'react';
-import { useSession, getSession, signIn } from 'next-auth/client'
+import { useSession } from 'next-auth/client'
 import faunadb, { query as q } from "faunadb"
 import Settings from '../../components/Settings'
 
 export default function SettingsAccount() {
   const page = 'account'
   const pageName = page.substr(0, 1).toUpperCase() + page.substr(1)
-  const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET });
+  const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET, });
 
   const [ session, loading ] = useSession()
   const user = session && session.user ? session.user : process.env.guest
@@ -20,16 +20,54 @@ export default function SettingsAccount() {
   const inputs = {
     username,
   }
+
+  const [protos, setProtos] = useState(inputs)
   const [values, setValues] = useState(inputs)
   const [errors, setErrors] = useState({})
+  const [valids, setValids] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [vitalizing, setVitalizing] = useState(false)
+  const [config, setConfig] = useState({reservedUsername: []})
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setValues({ ...values, [name]: value.trim() })
+  const swapUsername = (str) => {
+    return str?.replace(/[^A-Za-z0-9_]/g, '')?.replace(/^[_]+/g, '')?.trim()?.substr(0, 20)
   }
 
+  var timer
+  const handleChange = (event) => {
+    event.preventDefault()
+    const { name, value } = event.target
+
+    if (name === 'username') {
+      const un = swapUsername(value)
+      const rs = config.reservedUsername || []
+      setValues({ ...values, [name]: un })
+
+      if (un.length === 0 || un.length > 2) {
+        if (protos.username !== values.username) {
+          if (!rs.length || rs.includes(un) === false) {
+            setVitalizing(true)
+            setErrors({ ...errors, username: '' })
+          } else {
+            // 예약어로 사용할 수 없음
+            setVitalizing(false)
+            setErrors({ ...errors, username: '예약어로 사용할 수 없습니다.' })
+          }
+        } else {
+          // 변경되지 않은 초기값
+          setVitalizing(false)
+          setErrors({ ...errors, username: '현재 사용하고 계신 USERNAME입니다.' })
+        }
+      } else {
+        // 형식에 맞지 않음
+        setVitalizing(false)
+        setErrors({ ...errors, username: '형식에 맞지 않습니다.'})
+      }
+    } else {
+      setValues({ ...values, [name]: value })
+    }
+  }
+  
   function handleSubmit(event) {
     event.preventDefault()
     setSubmitting(true)
@@ -44,27 +82,53 @@ export default function SettingsAccount() {
       )
     )
     .then((res) => {
-      console.log(res)
-      // session.user.username = res.data.username
-      // getSession()
-      // signIn()
+      // console.log(res)
+      setProtos({ ...protos, username: res.data.username })
+      setSubmitting(false)
+      setVitalizing(false)
     })
     .catch((err) => {
-      console.log(`${err}`)
+      console.log(err)
       alert('🤷‍♀️')
     })
-    setSubmitting(false)
   }
 
   useEffect(() => {
     setValues(inputs)
+    setProtos(inputs)
+    client.query(
+      q.Get(q.Select([0], q.Paginate(q.Documents(q.Collection('config')))))
+    )
+    .then((res) => {
+      // console.log(res.data.reservedUsername)
+      setConfig({...config, reservedUsername: res.data.reservedUsername})
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }, [loading])
 
   useEffect(() => {
-    if (inputs.username !== values.username && values.username.length > 2) {
-      setVitalizing(true)
-    } else {
-      setVitalizing(false)
+    if (values.username && vitalizing) {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        client.query(
+          q.Map(
+            q.Paginate(q.Match(q.Index("index_users_username"), values.username)),
+            q.Lambda("X", q.Get(q.Var("X")))
+          )
+        )
+        .then((res) => {
+          // console.log(res.data)
+          if (res.data.length > 0) {
+            setVitalizing(false)
+            setErrors({ ...errors, username: '이미 사용중인 USERNAME입니다.'})
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      }, 1000)
     }
   }, [values.username])
 
@@ -85,7 +149,7 @@ export default function SettingsAccount() {
         <hr/>
         <form
           onSubmit={handleSubmit}
-          disabled={submitting && 'disabled'}
+          disabled={submitting && true}
         >
           <div className="form-group">
             <label htmlFor="">username</label>
@@ -96,19 +160,29 @@ export default function SettingsAccount() {
               placeholder=""
               value={values.username}
               onChange={handleChange}
+              disabled={submitting || loading && true}
             />
-            <small className="form-text text-muted">
-              <span>Your profile url. </span>
+            <small className="d-block form-text text-danger">{errors.username}</small>
+            <small className="d-block form-text text-muted">
+              <span>Your profile url is </span>
               {values.username && <>
-                <a href={`${process.env.NEXT_PUBLIC_URL}/${values.username}`}>{process.env.NEXT_PUBLIC_URL}/{values.username}</a>
+                <a href={`${process.env.NEXT_PUBLIC_URL}/${values.username}`}>{process.env.NEXT_PUBLIC_URL}/{values.username}</a>.
               </>}
+              {!values.username && <>
+                not set.
+              </>}
+            </small>
+            <small className="d-block form-text text-muted">
+              Make sure it's at least <b>3</b> characters and at most <b>20</b> characters 
+              including a number and a upper/lower case letter and a underscore. 
+              However, do not start the first character with an underscore.
             </small>
           </div>
           <div>
           <button
             type="submit"
             className="btn btn-success"
-            disabled={!vitalizing}
+            disabled={submitting || loading || !vitalizing && true}
           >
             <span>Update username</span>
           </button>
