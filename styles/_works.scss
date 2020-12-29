@@ -103,12 +103,14 @@ $app-footer-height: 60px;
     border-top: 1px solid $border-color;
     font-family: 'NEXON Gothic', sans-serif;
     font-size: 0.875rem;
+    height: $app-header-height;
+    color: $gray-600;
   }
   main {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
+    min-height: calc(100vh - #{$app-header-height} - #{$app-footer-height});
   }
   header + main {
     margin-top: $app-header-height;
