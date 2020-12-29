@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/client'
 import faunadb, { query as q } from "faunadb"
 import Settings from '../../components/Settings'
-import crypto from 'crypto'
+import Crypto from '../../lib/cryptoHelper'
 
 export default function SettingsSecurity() {
   const page = 'security'
@@ -18,13 +18,15 @@ export default function SettingsSecurity() {
   const image = user && user.image ? user.image : process.env.sneak.image
   const username = user && user.username ? user.username : ''
   const password = user && user.password ? user.password : ''
+  const passsalt = user && user.passsalt ? user.passsalt : ''
   const user_old_password = ''
   const user_new_password = ''
   const user_cfm_password = ''
-  const passwordMinLength = 4
+  const passwordMinLength = 8
 
   const inputs = {
     password,
+    passsalt,
     user_old_password,
     user_new_password,
     user_cfm_password,
@@ -37,6 +39,7 @@ export default function SettingsSecurity() {
   const [submitting, setSubmitting] = useState(false)
   const [vitalizing, setVitalizing] = useState(false)
 
+  var timer
   const handleChange = (event) => {
     const { name, value } = event.target
     setValues({ ...values, [name]: value })
@@ -45,46 +48,60 @@ export default function SettingsSecurity() {
   function handleSubmit(event) {
     event.preventDefault()
     setSubmitting(true)
-    // 비밀번호 암호화
-    // const old_pass = values.user_old_password
-    // const new_pass = values.user_new_password
-    const old_pass = crypto.createHash('sha512').update(values.user_old_password).digest('base64')
-    const new_pass = crypto.createHash('sha512').update(values.user_new_password).digest('base64')
-    if (!values.password || (values.password && values.password === old_pass)) {
-      // 비밀번호 업데이트
-      client.query(
-        q.Update(
-          q.Select([0], q.Paginate(q.Match(q.Index("index_users_id"), id))),
-          {
-            data: {
-              password: new_pass,
-            }
-          }
-        )
-      )
-      .then((res) => {
-        // console.log(res)
-        const i = {
-          password: new_pass,
-          user_old_password: '',
-          user_new_password: '',
-          user_cfm_password: '',
+
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      // 기존 비밀번호 체크
+      let chkPass = false
+      if (!values.password) {
+        chkPass = true
+      } else {
+        const enc = Crypto.getPass(values.user_old_password, values.passsalt)
+        if (values.password === enc) {
+          chkPass = true
         }
-        setValues(i)
-        setProtos(i)
-        setValids({})
-        setErrors({})
+      }
+
+      if (chkPass) {
+        // 비밀번호 업데이트
+        const newPass = Crypto.genPass(values.user_new_password)
+        client.query(
+          q.Update(
+            q.Select([0], q.Paginate(q.Match(q.Index("index_users_id"), id))),
+            {
+              data: {
+                password: newPass.pass,
+                passsalt: newPass.salt,
+              }
+            }
+          )
+        )
+        .then((res) => {
+          // console.log(res)
+          const i = {
+            password: newPass.pass,
+            passsalt: newPass.salt,
+            user_old_password: '',
+            user_new_password: '',
+            user_cfm_password: '',
+          }
+          setValues(i)
+          setProtos(i)
+          setValids({})
+          setErrors({})
+          setSubmitting(false)
+          setVitalizing(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('🤷‍♀️')
+        })
+      } else {
+        // 기존 비밀번호가 일치하지 않습니다.
+        alert('현재 사용하시는 비밀번호를 올바로 입력하세요!')
         setSubmitting(false)
-        setVitalizing(false)
-      })
-      .catch((err) => {
-        console.log(err)
-        alert('🤷‍♀️')
-      })
-    } else {
-      // 기존 비밀번호가 일치하지 않습니다.
-      alert('현재 사용하시는 비밀번호를 올바로 입력하세요!')
-    }
+      }
+    }, 100)
   }
 
   useEffect(() => {
@@ -196,6 +213,7 @@ export default function SettingsSecurity() {
               className="btn btn-success"
               disabled={submitting || loading || !vitalizing && true}
             >
+              {submitting && <i className="mr-2 spinner-border spinner-border-sm" role="status"></i>}
               <span>Update password</span>
             </button>
             <button
