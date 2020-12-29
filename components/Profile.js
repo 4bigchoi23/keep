@@ -77,12 +77,6 @@ const ProfileUsername = (props) => {
   return username
 }
 
-const ProfilePassword = (props) => {
-  const [ session, loading ] = useSession()
-  const password = ''
-  return password
-}
-
 const ProfileDelegate = (props) => {
   const [ session, loading ] = useSession()
   const delegate = props.value !== undefined
@@ -133,7 +127,6 @@ const Profile = {
   Email: ProfileEmail,
   Image: ProfileImage,
   Username: ProfileUsername,
-  Password: ProfilePassword,
   Delegate: ProfileDelegate,
 }
 export default Profile
