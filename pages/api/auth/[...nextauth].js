@@ -14,7 +14,7 @@ const options = {
     Providers.Credentials({
       name: 'Credentials',
       credentials: {
-        username: { label: "Email or Username", type: "text", value: "noisypasta@naver.com" },
+        username: { label: "Email or Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials) => {
@@ -44,32 +44,23 @@ const options = {
 
   callbacks: {
     session: async (session, user) => {
-      // session.user = { ...session?.user, ...user }
-      session.user.id = user.id
-      session.user.username = user.username
-      session.user.password = user.password
-      session.user.passsalt = user.passsalt
-      session.user.bio = user.bio
-      session.user.url = user.url
+      session.user = { ...session?.user, ...user }
       return Promise.resolve(session)
     },
     jwt: async (token, user, account, profile, isNewUser) => {
-      // token = { ...token, ...user }
-      if (user) {
-        token.id = user.id
-        token.username = user.username
-        token.password = user.password
-        token.passsalt = user.passsalt
-        token.bio = user.bio
-        token.url = user.url
-      }
+      token = { ...token, ...user }
       return Promise.resolve(token)
     },
   },
   session: {
     jwt: false,
   },
-  jwt: { secret: process.env.JWT_SECRET },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    signingKey: process.env.JWT_SIGNING_PRIVATE_KEY,
+    encryption: true,
+    encryptionKey: process.env.JWT_SIGNING_ENCRYPTION_KEY,
+  },
   adapter: faunaAdapter.Adapter(null, {}),
   debug: false,
 }
