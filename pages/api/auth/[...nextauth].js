@@ -44,11 +44,25 @@ const options = {
 
   callbacks: {
     session: async (session, user) => {
-      session.user = user
+      // session.user = { ...session?.user, ...user }
+      session.user.id = user.id
+      session.user.username = user.username
+      session.user.password = user.password
+      session.user.passsalt = user.passsalt
+      session.user.bio = user.bio
+      session.user.url = user.url
       return Promise.resolve(session)
     },
     jwt: async (token, user, account, profile, isNewUser) => {
-      user && (token.user = user)
+      // token = { ...token, ...user }
+      if (user) {
+        token.id = user.id
+        token.username = user.username
+        token.password = user.password
+        token.passsalt = user.passsalt
+        token.bio = user.bio
+        token.url = user.url
+      }
       return Promise.resolve(token)
     },
   },

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useEffect } from 'react';
 import { useRouter } from "next/router";
 import { useSession } from 'next-auth/client'
 import Layout from '../components/Layout'
@@ -7,15 +8,18 @@ import Profile from '../components/Profile'
 export default function Settings(props) {
   const router = useRouter()
   const [ session, loading ] = useSession()
-  if (!session && !loading) {
-    router.push('/')
-  }
 
   const activeTab = (tab) => {
     return tab === props.page
       ? { width: '3px', backgroundColor: 'var(--primary)' }
       : {}
   }
+
+  useEffect(() => {
+    if (!session && !loading) {
+      router.push('/')
+    }
+   })
 
   return (
     <Layout>
