@@ -8,8 +8,8 @@ export default function Auth() {
   const [profileUrl, setProfileUrl] = useState(null)
 
   useEffect(() => {
-    if (session && !loading && session.user.username) {
-      setProfileUrl(`/${session.user.username}`)
+    if (session && !loading && session.user?.username) {
+      setProfileUrl(`/${session.user?.username}`)
     } else {
       setProfileUrl(`/settings/account`)
     }

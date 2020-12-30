@@ -16,7 +16,7 @@ const ProfileName = (props) => {
   const name = props.value !== undefined
     ? props.value
     : (session && !loading
-        ? session.user?.name || process.env.sneak?.name || ''
+        ? session?.user?.name || process.env.sneak?.name || ''
         : process.env.guest?.name || ''
       )
   return name
@@ -44,7 +44,7 @@ const ProfileImage = (props) => {
   const alt = props.alt
     ? props.alt.trim()
     : (session && !loading && !props.src
-        ? `${session.user.name}`
+        ? `${session.user?.name}`
         : null
       )
   const handleError = (e) => {

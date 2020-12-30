@@ -13,9 +13,9 @@ export default function SettingsSecurity() {
   const [ session, loading ] = useSession()
   const user = session && session.user ? session.user : process.env.guest
   const id = user && user.id ? user.id : ''
-  const name = user && user.name ? user.name : process.env.sneak.name
-  const email = user && user.email ? user.email : process.env.sneak.email
-  const image = user && user.image ? user.image : process.env.sneak.image
+  const name = user && user.name ? user.name : process.env.sneak?.name
+  const email = user && user.email ? user.email : process.env.sneak?.email
+  const image = user && user.image ? user.image : process.env.sneak?.image
   const username = user && user.username ? user.username : ''
   const password = user && user.password ? user.password : ''
   const passsalt = user && user.passsalt ? user.passsalt : ''

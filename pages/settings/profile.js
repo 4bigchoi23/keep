@@ -13,8 +13,8 @@ export default function SettingsProfile() {
   const user = session && session.user ? session.user : process.env.guest
   const id = user && user.id ? user.id : ''
   const name = user && user.name ? user.name : ''
-  const email = user && user.email ? user.email : process.env.sneak.email
-  const image = user && user.image ? user.image : process.env.sneak.image
+  const email = user && user.email ? user.email : process.env.sneak?.email
+  const image = user && user.image ? user.image : process.env.sneak?.image
   const username = user && user.username ? user.username : ''
   const bio = user && user.bio ? user.bio : ''
   const url = user && user.url ? user.url : ''

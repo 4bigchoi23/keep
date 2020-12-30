@@ -12,30 +12,12 @@ const options = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }),
     Providers.Credentials({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
       name: 'Credentials',
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        username: { label: "Email or Username", type: "text" },
+        username: { label: "Email or Username", type: "text", value: "noisypasta@naver.com" },
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials) => {
-        // const user = (credentials) => {
-        //   // You need to provide your own logic here that takes the credentials
-        //   // submitted and returns either a object representing a user or value
-        //   // that is false/null if the credentials are invalid.
-        //   // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        //   return null
-        // }
-        // if (user) {
-        //   // Any user object returned here will be saved in the JSON Web Token
-        //   return Promise.resolve(user)
-        // } else {
-        //   return Promise.resolve(null)
-        // }
-
         let user = null
         const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET })
         const isEmail = credentials.username.indexOf('@') !== -1 ? true : false
@@ -62,23 +44,11 @@ const options = {
 
   callbacks: {
     session: async (session, user) => {
-      session.user.id = user.id;
-      session.user.username = user.username;
-      session.user.password = user.password;
-      session.user.passsalt = user.passsalt;
-      session.user.bio = user.bio;
-      session.user.url = user.url;
+      session.user = user
       return Promise.resolve(session)
     },
     jwt: async (token, user, account, profile, isNewUser) => {
-      if (user) {
-        token.id = user.id;
-        token.username = user.username;
-        token.password = user.password;
-        token.passsalt = user.passsalt;
-        token.bio = user.bio;
-        token.url = user.url;
-      }
+      user && (token.user = user)
       return Promise.resolve(token)
     },
   },

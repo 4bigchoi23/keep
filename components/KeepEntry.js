@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/client'
 
 export default function KeepEntry(props) {
   const [ session, loading ] = useSession()
-  const userId = session ? session.user.id : ''
+  const userId = session?.user?.id || ''
     
   const onDelete = (i, e) => {
     e.preventDefault()

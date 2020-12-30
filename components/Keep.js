@@ -9,7 +9,7 @@ export default function Keep(props) {
 
   const [ session, loading ] = useSession()
   const isUser = session ? true : false
-  const userId = session ? session.user.id : ''
+  const userId = session?.user?.id || ''
   
   const [docs, setDocs] = useState([])
 
