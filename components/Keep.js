@@ -114,20 +114,23 @@ export default function Keep(props) {
         onCreate={(i, e) => createKeep(i, e)}
       />
 
-      <div>
+      <div className="row my-3">
         {!docs ? (
           <p>Loading...</p>
         ) : (
           docs.map((entry, index, allEntries) => {
             return (
-              <div key={entry._id}>
+              <div
+                key={entry._id}
+                className="col-12 col-md-6 col-lg-4 my-3"
+              >
                 <KeepEntry
                   _id={entry._id}
                   _ts={entry._ts}
-                  user={entry.data.user}
-                  name={entry.info.name ? entry.info.name : process.env.sneak.name}
-                  email={entry.info.email ? entry.info.email : process.env.sneak.email}
-                  image={entry.info.image ? entry.info.image : process.env.sneak.image}
+                  user={entry.data?.user}
+                  name={entry.info?.name ? entry.info.name : process.env.sneak?.name}
+                  email={entry.info?.email ? entry.info.email : process.env.sneak?.email}
+                  image={entry.info?.image ? entry.info.image : process.env.sneak?.image}
                   keep={entry.data.keep}
                   slug={entry.data.slug}
                   note={entry.data.note}
