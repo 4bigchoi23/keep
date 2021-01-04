@@ -11,32 +11,32 @@ const options = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }),
-    Providers.Credentials({
-      name: 'Credentials',
-      credentials: {
-        username: { label: "Email or Username", type: "text" },
-        password: { label: "Password", type: "password" }
-      },
-      authorize: async (credentials) => {
-        let user = null
-        const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET })
-        const isEmail = credentials.username.indexOf('@') !== -1 ? true : false
-        const credentialsIndex = isEmail ? 'index_users_email' : 'index_users_username'
+    // Providers.Credentials({
+    //   name: 'Credentials',
+    //   credentials: {
+    //     username: { label: "Email or Username", type: "text" },
+    //     password: { label: "Password", type: "password" }
+    //   },
+    //   authorize: async (credentials) => {
+    //     let user = null
+    //     const client = new faunadb.Client({ secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET })
+    //     const isEmail = credentials.username.indexOf('@') !== -1 ? true : false
+    //     const credentialsIndex = isEmail ? 'index_users_email' : 'index_users_username'
 
-        return await client.query(
-          q.Get(q.Select([0], q.Paginate(q.Match(q.Index(credentialsIndex), credentials.username))))
-        ).then((res) => {
-          // console.log(res.data)
-          const pass = credentials.password
-            ? Crypto.getPass(credentials.password, res.data.passsalt)
-            : ''
-          if (pass && res.data.password && pass === res.data.password) {
-            user = res.data
-          }
-          return Promise.resolve(user)
-        })
-      }
-    }),
+    //     return await client.query(
+    //       q.Get(q.Select([0], q.Paginate(q.Match(q.Index(credentialsIndex), credentials.username))))
+    //     ).then((res) => {
+    //       // console.log(res.data)
+    //       const pass = credentials.password
+    //         ? Crypto.getPass(credentials.password, res.data.passsalt)
+    //         : ''
+    //       if (pass && res.data.password && pass === res.data.password) {
+    //         user = res.data
+    //       }
+    //       return Promise.resolve(user)
+    //     })
+    //   }
+    // }),
   ],
 
   // A database is optional, but required to persist accounts in a database
