@@ -161,7 +161,7 @@ export default function KeepForm(props) {
                 accessKey="s"
               >
                 Keep Your Bookmark!
-                (<kdb>Alt</kdb> + <kdb>S</kdb>)
+                ( <kbd>Alt</kbd> + <kbd>S</kbd> )
               </button>
               <button
                 type="button"

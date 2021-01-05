@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/client'
 import faunadb, { query as q } from "faunadb"
 import KeepForm from './KeepForm'
 import KeepEntry from './KeepEntry'
-import PageNav from './PageNav'
 
 export default function Keep(props) {
   const router = useRouter()
