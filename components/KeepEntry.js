@@ -14,7 +14,7 @@ export default function KeepEntry(props) {
   const img = props.misc?.ogimage || 'https://via.placeholder.com/320x180?text=...'
 
   return (
-    <div className={`card h-100 ${props.user === userId && 'card-o'}`}>
+    <div className="card h-100">
       <div
         className="card-img-top position-relative overflow-hidden bg-no-repeat bg-cover bg-center"
         style={{backgroundImage: `url(${img})`}}
@@ -36,41 +36,45 @@ export default function KeepEntry(props) {
             {props.note}
           </small>
         </>}
-        <hr className="my-2" />
-        <div className="media">
-          <div
-            className="media-img rounded-circle overflow-hidden bg-no-repeat bg-cover bg-center bg-light mr-3 d-block"
-            style={{backgroundImage: `url(${props.image})`}}
-          >
-            <img
-              src={props.image}
-              className="invisible"
-            />
+
+        <div className="card-user">
+          <hr />
+          <div className="media">
+            <div
+              className="media-img rounded-circle overflow-hidden bg-no-repeat bg-cover bg-center bg-light mr-2 d-block"
+              style={{backgroundImage: `url(${props.image})`}}
+            >
+              <img
+                src={props.image}
+                className="invisible"
+              />
+            </div>
+            <div className="media-body">
+              <small className="d-block line-height-125 text-truncate">{props.name}</small>
+              <small className="d-block line-height-125 text-truncate text-muted">{props.date.replace(/ \([^\)]+\)/g, '')}</small>
+            </div>
           </div>
-          <div className="media-body">
-            <small className="d-block line-height-125 text-truncate">{props.name}</small>
-            <small className="d-block line-height-125 text-truncate text-muted">{props.date.replace(/ \([^\)]+\)/g, '')}</small>
-          </div>
+          {props.user === userId && <>
+            <div className="card-action">
+              <button
+                className={`btn btn-sm`}
+                onClick={(e) => onDelete(props._id, e)}
+                disabled={props.user !== userId}
+              >
+                <i className="fa fa-trash-o fa-lg text-danger"></i>
+                <span className="sr-only">Delete</span>
+              </button>
+            </div>
+          </>}
         </div>
       </div>
-      {props.user === userId && <>
-        <div className="card-action">
-          <button
-            className={`btn btn-sm ${props.user !== userId ? 'btn-outline-silver' : 'btn-outline-danger'}`}
-            onClick={(e) => onDelete(props._id, e)}
-            disabled={props.user !== userId}
-          >
-            <i className="fa fa-trash-o mr-2"></i>
-            <span>Delete</span>
-          </button>
-        </div>
-      </>}
       <style jsx>{`
-        .card-o {
-          padding-bottom: 2.75rem;
+        .card {
+          padding-bottom: 4.25rem;
+          transition: all 0.25s ease-in-out;
         }
         .card:hover {
-          box-shadow: 0 0 10px rgba(0,0,0,.5);
+          box-shadow: 0 0 16px rgba(0,0,0,.5);
         }
         .card-img-top {
           padding-top: 56.25%;
@@ -91,11 +95,16 @@ export default function KeepEntry(props) {
           width: 32px;
           height: 32px;
         }
-        .card-action {
+        .card-user {
           position: absolute;
           left: 1.25rem;
           right: 1.25rem;
           bottom: 1.25rem;
+        }
+        .card-action {
+          position: absolute;
+          bottom: 0;
+          right: 0;
         }
       `}</style>
     </div>

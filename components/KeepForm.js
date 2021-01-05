@@ -86,7 +86,7 @@ export default function KeepForm(props) {
           >
             <legend>Keep Your Bookmark!</legend>
             <div className="form-group">
-              <label htmlFor="handleKeep">주소</label>
+              <label htmlFor="handleKeep" className="sr-only">주소</label>
               <input
                 type="text"
                 name="keep"
@@ -101,33 +101,35 @@ export default function KeepForm(props) {
             </div>
 
             <div className="form-group">
-              <label>제목</label>
+              <label htmlFor="handleSlug" className="sr-only">제목</label>
               <input
                 type="text"
                 name="slug"
-                placeholder=""
+                placeholder="제목"
                 onChange={handleChange}
                 value={values.slug}
                 className="form-control"
+                id="handleSlug"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label>메모</label>
+              <label htmlFor="handleNote" className="sr-only">메모</label>
               <textarea
                 rows="5"
                 cols="50"
                 name="note"
-                placeholder=""
+                placeholder="메모"
                 onChange={handleChange}
                 value={values.note}
                 className="form-control resize-none"
+                id="handleNote"
               />
             </div>
 
             <div className="form-group sr-only">
-              <label>misc.ogimage</label>
+              <label htmlFor="handleMiscOgimage" className="sr-only">misc.ogimage</label>
               <input
                 type="hidden"
                 name="misc.ogimage"
@@ -135,11 +137,12 @@ export default function KeepForm(props) {
                 onChange={handleChange}
                 value={values.misc.ogimage}
                 className="form-control"
+                id="handleMiscOgimage"
               />
             </div>
 
             <div className="form-group sr-only">
-              <label>misc.favicon</label>
+              <label htmlFor="handleMiscFavicon" className="sr-only">misc.favicon</label>
               <input
                 type="hidden"
                 name="misc.favicon"
@@ -147,15 +150,18 @@ export default function KeepForm(props) {
                 onChange={handleChange}
                 value={values.misc.favicon}
                 className="form-control"
+                id="handleMiscFavicon"
               />
             </div>
 
-            <div>
+            <div className="d-flex justify-content-between">
               <button
                 type="submit"
                 className="btn btn-primary"
+                accessKey="s"
               >
                 Keep Your Bookmark!
+                (<kdb>Alt</kdb> + <kdb>S</kdb>)
               </button>
               <button
                 type="button"
