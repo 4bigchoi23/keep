@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import TextareaAutosize from 'react-textarea-autosize';
 
 export default function KeepForm(props) {
   const inputs = {
@@ -50,7 +51,7 @@ export default function KeepForm(props) {
 
   const handleChange = (event) => {
     const { name, value } = event.target
-    setValues({ ...values, [name]: value.trim() })
+    setValues({ ...values, [name]: value })
   }
 
   function handleSubmit(event) {
@@ -84,9 +85,12 @@ export default function KeepForm(props) {
           <fieldset
             disabled={submitting && 'disabled'}
           >
-            <legend>Keep Your Bookmark!</legend>
-            <div className="form-group">
-              <label htmlFor="handleKeep" className="sr-only">주소</label>
+            <legend className="sr-only">Keep Your Bookmark!</legend>
+            <div className="form-group mb-2">
+              <label
+                htmlFor="handleKeep"
+                className="sr-only"
+              >keep</label>
               <input
                 type="text"
                 name="keep"
@@ -100,12 +104,15 @@ export default function KeepForm(props) {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="handleSlug" className="sr-only">제목</label>
+            <div className="form-group mb-2">
+              <label
+                htmlFor="handleSlug"
+                className="sr-only"
+              >slug</label>
               <input
                 type="text"
                 name="slug"
-                placeholder="제목"
+                placeholder="slug"
                 onChange={handleChange}
                 value={values.slug}
                 className="form-control"
@@ -114,13 +121,14 @@ export default function KeepForm(props) {
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="handleNote" className="sr-only">메모</label>
-              <textarea
-                rows="5"
-                cols="50"
+            <div className="form-group mb-2">
+              <label
+                htmlFor="handleNote"
+                className="sr-only"
+              >note</label>
+              <TextareaAutosize
                 name="note"
-                placeholder="메모"
+                placeholder="note"
                 onChange={handleChange}
                 value={values.note}
                 className="form-control resize-none"
@@ -128,8 +136,11 @@ export default function KeepForm(props) {
               />
             </div>
 
-            <div className="form-group sr-only">
-              <label htmlFor="handleMiscOgimage" className="sr-only">misc.ogimage</label>
+            <div className="form-group mb-2 sr-only">
+              <label
+                htmlFor="handleMiscOgimage"
+                className="sr-only"
+              >misc.ogimage</label>
               <input
                 type="hidden"
                 name="misc.ogimage"
@@ -141,8 +152,11 @@ export default function KeepForm(props) {
               />
             </div>
 
-            <div className="form-group sr-only">
-              <label htmlFor="handleMiscFavicon" className="sr-only">misc.favicon</label>
+            <div className="form-group mb-2 sr-only">
+              <label
+                htmlFor="handleMiscFavicon"
+                className="sr-only"
+              >misc.favicon</label>
               <input
                 type="hidden"
                 name="misc.favicon"

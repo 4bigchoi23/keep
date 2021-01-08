@@ -13,10 +13,6 @@ export default function Keep(props) {
   const isUser = session ? true : false
   const userId = session?.user?.id || ''
 
-  // if (router.query.page === undefined) {
-  //   router.query.page = 1
-  // }
-
   const [docs, setDocs] = useState([])
   const [nums, setNums] = useState(0)
   const [page, setPage] = useState(0)
@@ -30,18 +26,6 @@ export default function Keep(props) {
 
   const fetchData = async (direction) => {
     try {
-      // 전체 갯수 
-      // <PageNav />와 함께 사용
-      // FaunaDB Offset 쿼리를 지원하지 않아서... 주석
-      // const rows = await client.query(
-      //   q.Map(
-      //     q.Paginate(q.Match(q.Index('all_keeps'))),
-      //     q.Lambda(['ref'], q.Var('ref'))
-      //   )
-      // )
-      // console.log(rows.data)
-      // setNums(rows.data?.length)
-
       // 페이지
       if (!direction || !page) {
         setPage(1)
@@ -95,17 +79,28 @@ export default function Keep(props) {
                   name: process.env.guest?.name,
                   email: process.env.guest?.email,
                   image: process.env.guest?.image
-                }
+                },
+                userinfo: q.If(
+                  q.Equals(q.Var('userrefs'), ""),
+                  q.Var('userdata'),
+                  q.Let(
+                    {
+                      i: q.Get(q.Match(q.Index('index_users_id'), q.Var('userrefs'))),
+                      j: q.Select(['data'], q.Var('i')),
+                    },
+                    {
+                      name: q.Select('name', q.Var('j'), ""),
+                      email: q.Select('email', q.Var('j'), ""),
+                      image: q.Select('image', q.Var('j'), ""),
+                    }
+                  )
+                ),
               },
               {
-                _id: q.Select(['id'], q.Var('ref')),
-                _ts: q.Select(['ts'], q.Var('instance')),
-                data: q.Select(['data'], q.Var('instance')),
-                info: q.If(
-                  q.Equals(q.Var('userrefs'), ""), 
-                  q.Var('userdata'), 
-                  q.Select(['data'], q.Get(q.Match(q.Index('index_users_id'), q.Var('userrefs'))))
-                ),
+                _id: q.Select(['id'], q.Var('ref'), ""),
+                _ts: q.Select(['ts'], q.Var('instance'), 0),
+                data: q.Select(['data'], q.Var('instance'), {}),
+                info: q.Var('userinfo'),
               }
             )
           )
@@ -181,19 +176,6 @@ export default function Keep(props) {
     }
   }, [])
 
-  // useEffect(() => {
-  //   const p = parseInt(router.query?.page)
-  //   if (p > 0) {
-  //     setPage(p)
-  //   }
-  // }, [router.query?.page])
-
-  // useEffect(() => {
-  //   if (page > 0) {
-  //     fetchData()
-  //   }
-  // }, [page])
-
   return (
     <div>
       <KeepForm
@@ -203,11 +185,16 @@ export default function Keep(props) {
 
       <div className="row my-3">
         {!docs?.length ? (
-          <div className="col justify-content-center text-center">
-            <div className="spinner-border text-info" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          </div>
+          [...Array(3)].map((entry, index) => {
+            return (
+              <div
+                key={index}
+                className="col-12 col-md-6 col-lg-4 my-3"
+              >
+                <KeepEntry />
+              </div>
+            )
+          })
         ) : (
           docs.map((entry, index, allEntries) => {
             return (
@@ -222,6 +209,7 @@ export default function Keep(props) {
                   name={entry.info?.name ? entry.info.name : process.env.sneak?.name}
                   email={entry.info?.email ? entry.info.email : process.env.sneak?.email}
                   image={entry.info?.image ? entry.info.image : process.env.sneak?.image}
+                  username={entry.info?.username}
                   keep={entry.data.keep}
                   slug={entry.data.slug}
                   note={entry.data.note}
@@ -236,41 +224,33 @@ export default function Keep(props) {
         )}
       </div>
 
-      {/*
-      <div>
-        <PageNav
-          pageCount={pageCount}
-          itemCount={itemCount}
-          totalItem={nums}
-        />
-      </div>
-      */}
-
-      <div className="my-3 text-center">
-        <button
-          type="button"
-          className="btn btn-secondary mx-1"
-          onClick={() => handlePagination('prev')}
-          disabled={!prev || fetching}
-        >
-          Prev
-        </button>
-        <span className="btn mx-1 cursor-default" aria-pressed="false">
-        {fetching ? (
-          <span className="spinner-border spinner-border-sm"></span>
-        ) : (
-          <span>{page}</span>
-        )}
-        </span>
-        <button
-          type="button"
-          className="btn btn-secondary mx-1"
-          onClick={() => handlePagination('next')}
-          disabled={!next || fetching}
-        >
-          Next
-        </button>
-      </div>
+      {docs?.length > 0 && <>
+        <div className="my-3 text-center">
+          <button
+            type="button"
+            className="btn btn-secondary mx-1"
+            onClick={() => handlePagination('prev')}
+            disabled={!prev || fetching}
+          >
+            Prev
+          </button>
+          <span className="btn mx-1 cursor-default pointer-events-none">
+          {fetching ? (
+            <span className="spinner-border spinner-border-sm"></span>
+          ) : (
+            <span>{page}</span>
+          )}
+          </span>
+          <button
+            type="button"
+            className="btn btn-secondary mx-1"
+            onClick={() => handlePagination('next')}
+            disabled={!next || fetching}
+          >
+            Next
+          </button>
+        </div>
+      </>}
     </div>
   )
 }

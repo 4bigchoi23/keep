@@ -11,30 +11,55 @@ export default function KeepEntry(props) {
     }
   }
 
-  const img = props.misc?.ogimage || 'https://via.placeholder.com/320x180?text=...'
+  const name = props.name || props.username || props.email
+  const date = props.date?.replace(/ \([^\)]+\)/g, '') || ''
+  const ogim = props.misc?.ogimage || 'https://via.placeholder.com/320x180/444/222?text=...'
+
+  const handleOpen = (url, e) => {
+    e.preventDefault()
+    if (!url) {
+      return null
+    }
+    window.open(url)
+  }
 
   return (
     <div className="card h-100">
       <div
         className="card-img-top position-relative overflow-hidden bg-no-repeat bg-cover bg-center"
-        style={{backgroundImage: `url(${img})`}}
+        style={{backgroundImage: `url(${ogim})`}}
       >
         <img
-          src={img}
+          src={ogim}
           alt={props.slug}
           className="position-absolute top-0 bottom-0 left-0 invisible"
         />
       </div>
       <div className="card-body">
-        <h6 className="card-title text-major font-weight-normal m-0">{props.slug}</h6>
+        <h6 className={`card-title m-0 ${props._id ? 'text-major font-weight-normal' : 'dummy dummy-slug'}`}>{props.slug}</h6>
         <div className="text-truncate">
-          <img src={props.misc?.favicon} alt="" className="favicon mr-2" />
-          <small className="card-url cursor-pointer" onClick={() => window.open(props.keep)}>{props.keep}</small>
-        </div>
-        {props.note && <>
-          <small className="d-block text-muted line-height-125 mt-2">
-            {props.note}
+          {!props._id && <>
+            <small className="dummy dummy-favicon mr-2"></small>
+          </>}
+          {props.misc?.favicon && <>
+            <img src={props.misc?.favicon} alt={props.keep} className="favicon mr-2" />
+          </>}
+          <small
+            className={`${props._id ? 'card-url cursor-pointer' : 'dummy dummy-keep'}`}
+            onClick={(e) => handleOpen(props.keep, e)}
+          >
+            {props.keep}
           </small>
+        </div>
+        {!props._id && <>
+          <small className="d-block text-muted line-height-125 mt-2">
+            <small className="d-block dummy dummy-note"></small>
+            <small className="d-block dummy dummy-note"></small>
+            <small className="d-block dummy dummy-note"></small>
+          </small>
+        </>}
+        {props.note && <>
+          <small className="d-block text-muted line-height-125 mt-2">{props.note}</small>
         </>}
 
         <div className="card-user">
@@ -46,20 +71,21 @@ export default function KeepEntry(props) {
             >
               <img
                 src={props.image}
+                alt={name}
                 className="invisible"
               />
             </div>
             <div className="media-body">
-              <small className="d-block line-height-125 text-truncate">{props.name}</small>
-              <small className="d-block line-height-125 text-truncate text-muted">{props.date.replace(/ \([^\)]+\)/g, '')}</small>
+              <small className={`d-block line-height-125 text-truncate ${!props._id && 'dummy dummy-name'}`}>{name}</small>
+              <small className={`d-block line-height-125 text-truncate text-muted ${!props._id && 'dummy dummy-date'}`}>{date}</small>
             </div>
           </div>
-          {props.user === userId && <>
+          {props.user && props.user === userId && <>
             <div className="card-action">
               <button
                 className={`btn btn-sm`}
                 onClick={(e) => onDelete(props._id, e)}
-                disabled={props.user !== userId}
+                disabled={props.user && props.user !== userId}
               >
                 <i className="fa fa-trash-o fa-lg text-danger"></i>
                 <span className="sr-only">Delete</span>
@@ -105,6 +131,38 @@ export default function KeepEntry(props) {
           position: absolute;
           bottom: 0;
           right: 0;
+        }
+        .dummy {
+          display: inline-block;
+          background: var(--light);
+          width: 100%;
+          height: 1em;
+          border-radius: 0.5em;
+        }
+        .dummy-slug {
+        }
+        .dummy-favicon {
+          width: 1em;
+          height: 1em;
+        }
+        .dummy-keep {
+          width: calc(100% - 0.5rem - 1em);
+        }
+        .dummy-note {
+          margin: 0.5rem 0;
+          height: 0.25rem;
+          opacity: 0.5;
+        }
+        .dummy-note:last-child {
+          width: 75%;
+        }
+        .dummy-name,
+        .dummy-date {
+          margin: 0.375rem 0;
+          height: 0.5rem;
+        }
+        .dummy-name {
+          width: 50%;
         }
       `}</style>
     </div>
