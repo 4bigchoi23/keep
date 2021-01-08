@@ -64,6 +64,7 @@ export default function KeepForm(props) {
     props.onCreate({ ...values }, event)
     setValues(inputs)
     setSubmitting(false)
+    event.nativeEvent.submitter.blur()
     return
   }
   
@@ -98,7 +99,7 @@ export default function KeepForm(props) {
                 onPaste={handleKeepPaste}
                 onChange={handleChange}
                 value={values.keep}
-                className="form-control"
+                className="form-control monospace"
                 id="handleKeep"
                 required
               />
@@ -115,7 +116,7 @@ export default function KeepForm(props) {
                 placeholder="slug"
                 onChange={handleChange}
                 value={values.slug}
-                className="form-control"
+                className="form-control monospace"
                 id="handleSlug"
                 required
               />
@@ -131,7 +132,7 @@ export default function KeepForm(props) {
                 placeholder="note"
                 onChange={handleChange}
                 value={values.note}
-                className="form-control resize-none"
+                className="form-control monospace resize-none"
                 id="handleNote"
               />
             </div>
@@ -147,7 +148,7 @@ export default function KeepForm(props) {
                 placeholder=""
                 onChange={handleChange}
                 value={values.misc.ogimage}
-                className="form-control"
+                className="form-control monospace"
                 id="handleMiscOgimage"
               />
             </div>
@@ -163,7 +164,7 @@ export default function KeepForm(props) {
                 placeholder=""
                 onChange={handleChange}
                 value={values.misc.favicon}
-                className="form-control"
+                className="form-control monospace"
                 id="handleMiscFavicon"
               />
             </div>
@@ -171,15 +172,15 @@ export default function KeepForm(props) {
             <div className="d-flex justify-content-between">
               <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary monospace"
                 accessKey="s"
               >
-                Keep Your Bookmark!
-                ( <kbd>Alt</kbd> + <kbd>S</kbd> )
+                <span>Keep Your Bookmark!</span>
+                <span className="d-none d-sm-inline"> ( <kbd>Alt</kbd> + <kbd>S</kbd> )</span>
               </button>
               <button
                 type="button"
-                className="btn btn-outline-secondary ml-3"
+                className="btn btn-outline-secondary monospace ml-3"
                 onClick={handleFormReset}
               >
                 Reset

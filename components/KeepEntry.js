@@ -7,13 +7,14 @@ export default function KeepEntry(props) {
   const onDelete = (i, e) => {
     e.preventDefault()
     if (confirm("Really Delete?")) {
-      props.onDelete(i)
+      props.onDelete(i, e)
     }
   }
 
   const name = props.name || props.username || props.email
   const date = props.date?.replace(/ \([^\)]+\)/g, '') || ''
-  const ogim = props.misc?.ogimage || 'https://via.placeholder.com/320x180/444/222?text=...'
+  const dfim = 'https://via.placeholder.com/320x180/444/222?text=...'
+  const ogim = props.misc?.ogimage?.replace(/[\s\t\r\n]/g, '\\ ') || dfim
 
   const handleOpen = (url, e) => {
     e.preventDefault()

@@ -22,7 +22,7 @@ export default function Keep(props) {
   const [fetching, setFetching] = useState(false)
 
   const pageCount = 5
-  const itemCount = 12
+  const itemCount = 24
 
   const fetchData = async (direction) => {
     try {
@@ -39,6 +39,13 @@ export default function Keep(props) {
       // 목록
       let paginate = { size: itemCount }
       switch (direction) {
+        case 'curr':
+          paginate = {
+            ...paginate,
+            after: [ q.Ref(q.Collection("keeps"), curr) ]
+          }
+          break
+
         case 'prev': 
           paginate = {
             ...paginate,
@@ -109,7 +116,7 @@ export default function Keep(props) {
 
       // console.log(json?.data)
       setDocs(json?.data)
-      // setCurr(json?.data?.[0]?._id)
+      setCurr(json?.data?.[0]?._id)
 
       // console.log('before', json?.before)
       setPrev(json?.before?.[0]?.value?.id)
@@ -161,11 +168,22 @@ export default function Keep(props) {
     return
   }
   const deleteKeep = (data, event) => {
+    event.preventDefault()
+    event.currentTarget.blur()
+
     client.query(
       q.Delete(q.Ref(q.Collection('keeps'), data))
     )
     .then((ret) => {
-      fetchData()
+      let array = docs.map( e => e._id )
+      array = array.filter((value, index) => value !== data)
+      if (array.length > 0) {
+        setCurr(array[0])
+        fetchData('curr')
+      } else {
+        setCurr()
+        fetchData()
+      }
     })
     return
   }
@@ -199,23 +217,23 @@ export default function Keep(props) {
           docs.map((entry, index, allEntries) => {
             return (
               <div
-                key={entry._id}
+                key={index}
                 className="col-12 col-md-6 col-lg-4 my-3"
               >
                 <KeepEntry
                   _id={entry._id}
                   _ts={entry._ts}
                   user={entry.data?.user}
-                  name={entry.info?.name ? entry.info.name : process.env.sneak?.name}
-                  email={entry.info?.email ? entry.info.email : process.env.sneak?.email}
-                  image={entry.info?.image ? entry.info.image : process.env.sneak?.image}
+                  name={entry.info?.name}
+                  email={entry.info?.email}
+                  image={entry.info?.image || (entry.data?.user ? process.env.sneak?.image : process.env.guest?.image)}
                   username={entry.info?.username}
-                  keep={entry.data.keep}
-                  slug={entry.data.slug}
-                  note={entry.data.note}
-                  tags={entry.data.tags}
-                  misc={entry.data.misc}
-                  date={new Date(entry._ts / 1000).toString()}
+                  keep={entry.data?.keep}
+                  slug={entry.data?.slug}
+                  note={entry.data?.note}
+                  tags={entry.data?.tags}
+                  misc={entry.data?.misc}
+                  date={entry._ts ? new Date(entry._ts / 1000).toString() : ''}
                   onDelete={(i, e) => deleteKeep(i, e)}
                 />
               </div>
@@ -224,7 +242,7 @@ export default function Keep(props) {
         )}
       </div>
 
-      {docs?.length > 0 && <>
+      {docs?.length > 0 && (prev || next) && <>
         <div className="my-3 text-center">
           <button
             type="button"
