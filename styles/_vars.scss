@@ -314,6 +314,7 @@ $caret-spacing:               $caret-width * .85 !default;
 $transition-base:             all .2s ease-in-out !default;
 $transition-fade:             opacity .15s linear !default;
 $transition-collapse:         height .35s ease !default;
+$transition-collapse-width:   width .35s ease !default;
 
 $embed-responsive-aspect-ratios: () !default;
 $embed-responsive-aspect-ratios: join(
@@ -336,11 +337,10 @@ $font-family-serif:           "Times New Roman", Times, "Noto Serif", serif, "Ap
 $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
 $font-family-base:            $font-family-sans-serif !default;
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&family=Roboto&family=Merriweather&family=Noto+Sans+KR&family=Noto+Serif+KR&display=swap');
 $font-family-emoji:           "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-$font-family-sans-serif:      "Roboto", "Noto Sans KR", "Noto Sans", sans-serif, $font-family-emoji;
+$font-family-sans-serif:      Pretendard, "Roboto", "Noto Sans KR", "Noto Sans", sans-serif, $font-family-emoji;
 $font-family-serif:           "Merriweather", "Noto Serif KR", "Noto Serif", serif, $font-family-emoji;
-$font-family-monospace:       "Cascadia Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, $font-family-emoji;
+$font-family-monospace:       "Roboto Mono", "Cascadia Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace, $font-family-emoji;
 $font-family-base:            $font-family-sans-serif;
 // stylelint-enable value-keyword-case
 
@@ -815,6 +815,7 @@ $navbar-light-brand-hover-color:          $navbar-light-active-color !default;
 $navbar-dark-brand-color:                 $navbar-dark-active-color !default;
 $navbar-dark-brand-hover-color:           $navbar-dark-active-color !default;
 
+$navbar-nav-scroll-max-height:      75vh !default;
 
 // Dropdowns
 //
@@ -881,6 +882,8 @@ $pagination-disabled-color:         $gray-600 !default;
 $pagination-disabled-bg:            $white !default;
 $pagination-disabled-border-color:  $gray-300 !default;
 
+$pagination-border-radius-sm:       $border-radius-sm !default;
+$pagination-border-radius-lg:       $border-radius-lg !default;
 
 // Jumbotron
 
@@ -1163,6 +1166,7 @@ $carousel-transition:                transform $carousel-transition-duration eas
 
 $spinner-width:         2rem !default;
 $spinner-height:        $spinner-width !default;
+$spinner-vertical-align:  -.125em !default;
 $spinner-border-width:  .25em !default;
 
 $spinner-width-sm:        1rem !default;
