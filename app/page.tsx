@@ -1,4 +1,13 @@
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Home() {
   return (
@@ -49,6 +58,23 @@ export default function Home() {
           >
             Read our docs
           </a>
+        </div>
+        <div className="mt-3">
+          <Button>Button</Button>
+        </div>
+        <div className="mt-3">
+          <Card className="w-[380px]">
+            <CardHeader>
+              <CardTitle>Card Title</CardTitle>
+              <CardDescription>Card Description</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>Card Content Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et fugit impedit minus, ipsum repudiandae eveniet? Minus natus, delectus aliquid error, minima quae ut laudantium exercitationem dolorum voluptatem, nemo veritatis beatae.</p>
+            </CardContent>
+            <CardFooter>
+              <p>Card Footer</p>
+            </CardFooter>
+          </Card>
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
