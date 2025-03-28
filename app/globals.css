@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: "Geist", "Noto Serif KR", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "Geist Mono", "Noto Sans KR", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-body: var(--font-mono);
+  --font-logo: "Montserrat", sans-serif;
+
+  --color-major: #64acff;
+  --color-minor: #a2facf;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -136,7 +150,41 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html, body {
+    @apply min-h-screen;
+  }
   body {
     @apply bg-background text-foreground;
+    @apply font-body;
+
+    #app {
+      @apply flex flex-col min-h-screen;
+    }
+    #app > header {
+    }
+    #app > footer {
+      @apply mt-auto;
+    }
+    #app > main {
+    }
   }
+}
+
+.keep {
+  @apply block m-0 font-logo text-[2.25rem] uppercase font-[900] leading-none tracking-[-0.075em];
+
+  .keep-link {
+    @apply flex items-center text-[transparent] no-underline;
+  }
+  .keep-mark {
+    @apply block w-[30px] h-[30px] bg-[var(--foreground)] mr-[10px];
+    mask: url(/keep.svg) no-repeat center / contain;
+  }
+  .keep-font {
+    @apply bg-clip-text bg-linear-[130deg,var(--foreground),var(--muted-foreground)] pr-1;
+  }
+}
+
+.section {
+  @apply w-full xl:w-6xl mx-auto p-4;
 }
