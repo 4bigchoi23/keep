@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 // import Link from 'next/link';
+import { SessionProvider } from "next-auth/react";
 import Keep from "@/components/keep/keep";
 import Auth from "@/components/keep/auth";
 
@@ -25,7 +26,9 @@ export default function RootLayout({
                   <Keep />
                 </div>
                 <div className="flex gap-2 items-center">
-                  <Auth />
+                  <SessionProvider>
+                    <Auth />
+                  </SessionProvider>
                 </div>
               </div>
             </div>
