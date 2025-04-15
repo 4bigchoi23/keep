@@ -265,12 +265,15 @@ export default function Avatars({
                     key={key}
                     className="overflow-hidden rounded-full bg-muted"
                   >
-                    <img 
-                      src={src} 
-                      alt="" 
-                      className="w-full h-auto rounded-full cursor-pointer hover:opacity-50 transition-opacity duration-250 ease-in-out" 
-                      {...props} 
-                    />
+                    {
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img 
+                        src={src} 
+                        alt="" 
+                        className="w-full h-auto rounded-full cursor-pointer hover:opacity-50 transition-opacity duration-250 ease-in-out" 
+                        {...props} 
+                      />
+                    }
                   </div>
                 )
               })}
