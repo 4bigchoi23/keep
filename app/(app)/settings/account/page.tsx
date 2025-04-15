@@ -75,7 +75,7 @@ export default function SettingsAccount() {
       setProfileUrl(value?.username ?? '');
     })
     return () => unsubscribe();
-  }, []);
+  }, [form]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     setToSubmit(true);
