@@ -23,7 +23,7 @@ import {
   LucideLogOut,
 } from "lucide-react";
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Auth() {
