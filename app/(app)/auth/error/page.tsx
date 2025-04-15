@@ -21,6 +21,7 @@ import Keep from "@/components/app/keep";
 
 import { useRouter, useSearchParams, redirect } from 'next/navigation';
 import { signIn } from "next-auth/react";
+import { Suspense } from "react";
 
 enum Error {
   Default = "Default",
@@ -66,7 +67,7 @@ const errorMap = {
   ],
 }
 
-export default function AuthError() {
+const AuthErrorClient = () => {
   const router = useRouter()
   const search = useSearchParams()
   const error = search.get("error") as Error
@@ -106,5 +107,13 @@ export default function AuthError() {
         </CardFooter>
       </Card>
     </div>
+  );
+}
+
+export default function AuthError() {
+  return (
+    <Suspense>
+      <AuthErrorClient />
+    </Suspense>
   );
 }
