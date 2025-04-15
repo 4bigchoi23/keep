@@ -206,7 +206,7 @@ export default function SettingsProfile() {
                   </FormControl>
                   <FormDescription>
                     Only square images uploaded to a remote server can be registered. 
-                    If you're out of ideas, just {" "}
+                    If you&apos;re out of ideas, just {" "}
                     <Dialog open={openAvatar} onOpenChange={setOpenAvatar}>
                       <DialogTrigger 
                         className="uppercase text-indigo-500 dark:text-sky-500 hover:underline"
@@ -232,7 +232,7 @@ export default function SettingsProfile() {
                     >
                       revert
                     </span> 
-                    {" "} to the provider's default image 
+                    {" "} to the provider&apos;s default image 
                     or you can {" "}
                     <span 
                       className="uppercase text-red-600 dark:text-red-400 hover:underline cursor-pointer"
