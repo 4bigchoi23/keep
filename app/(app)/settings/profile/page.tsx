@@ -30,7 +30,7 @@ import {
 
 import Avatars from "@/components/app/avatars";
 
-import { useState, useEffect, MouseEventHandler } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 
