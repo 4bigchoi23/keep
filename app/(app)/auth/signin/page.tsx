@@ -18,7 +18,9 @@ import { Label } from "@/components/ui/label";
 import Keep from "@/components/app/keep";
 
 export default async function AuthSignIn(props: {
-  searchParams: { callbackUrl: string | undefined }
+  searchParams?: Promise<{ 
+    callbackUrl: string | undefined;
+  }>;
 }) {
   const searchParams = await props.searchParams;
   const providerSet = {
