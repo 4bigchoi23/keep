@@ -34,7 +34,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession, signOut } from "next-auth/react";
 
-// import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@/prisma/client';
 // const prisma = new PrismaClient();
 
 import { zodResolver } from "@hookform/resolvers/zod";

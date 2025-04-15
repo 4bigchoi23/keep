@@ -12,7 +12,7 @@ import KeepPagination from '@/components/app/keep-pagination';
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { Suspense } from 'react';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@/prisma/client';
 const prisma = new PrismaClient();
 
 export default async function Home(props: {
