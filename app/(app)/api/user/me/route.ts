@@ -52,6 +52,7 @@ export async function GET(request: NextRequest) {
       where: {
         id: session?.user?.id ?? '',
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any;
 
     if (qs && data) {
