@@ -20,7 +20,7 @@ import {
   LucideLogOut,
 } from "lucide-react";
 
-import { auth, signIn, signOut } from "@/auth";
+import { auth, signOut } from "@/auth";
 
 import SignInButton from '@/components/app/signin';
 
@@ -31,22 +31,6 @@ export default async function Auth() {
     <>
       {
         !session ? (
-          /*
-          <form
-            action={async () => {
-              "use server"
-              await signIn()
-            }}
-          >
-            <Button
-              type="submit"
-              className=""
-            >
-              <LucideCircleUser />
-              Sign In
-            </Button>
-          </form>
-          */
           <SignInButton />
         ) : (
           <DropdownMenu>
