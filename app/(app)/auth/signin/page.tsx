@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import { signIn, auth, providerMap } from "@/auth.ts"
+import { signIn, providerMap } from "@/auth.ts"
 import { AuthError } from "next-auth"
 
 // import Link from 'next/link';
