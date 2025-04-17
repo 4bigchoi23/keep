@@ -23,6 +23,7 @@ export default function KeepList({
     user?: {
       nick?: string | null,
       photo?: string | null,
+      username?: string | null,
     },
   }[];
 }) {

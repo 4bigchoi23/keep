@@ -1,6 +1,6 @@
 'use client';
 
-// import Link from 'next/link';
+import Link from 'next/link';
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +44,7 @@ export default function KeepItem({
     user?: {
       nick?: string | null,
       photo?: string | null,
+      username?: string | null,
     },
   };
   each?: boolean | null;
@@ -134,8 +135,14 @@ export default function KeepItem({
             <AvatarFallback></AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-1 truncate w-full">
-            <div className="text-sm/3 font-medium text-neutral-600 dark:text-neutral-400">
-              {keep?.user?.nick ?? 'noname'}
+            <div className="text-sm/3 font-medium text-neutral-600 dark:text-neutral-400 flex gap-2 items-center">
+              {keep?.user?.username ? (
+                <Link href={keep?.user?.username ? `/${keep?.user?.username}` : ``}>
+                  <span className="hover:underline hover:text-green-600 dark:hover:text-green-400">{keep?.user?.nick ?? 'noname'}</span>
+                </Link>
+              ) : (
+                <span>{keep?.user?.nick ?? 'noname'}</span>
+              )}
             </div>
             <div className="text-xs/3 text-neutral-600 dark:text-neutral-400 truncate">
               {new Date(keep?.createdAt ?? '').toUTCString()}
