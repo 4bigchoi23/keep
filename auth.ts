@@ -4,6 +4,7 @@ import type { Session } from "next-auth"
 import type { JWT } from "next-auth/jwt"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/prisma"
+import { PrismaClient as PrismaClientModule } from "@prisma/client"
 // import { saltAndHashPassword } from "@/utils/password"
 // import { getUserFromDb } from "@/utils/db"
 // import Credentials from "next-auth/providers/credentials"
@@ -121,7 +122,7 @@ export const providerMap = providers
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: false,
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma as PrismaClientModule),
   session: { strategy: "jwt" },
   providers,
   callbacks: {
