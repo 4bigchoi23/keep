@@ -59,6 +59,7 @@ export default async function Home(props: {
         select: {
           nick: true,
           photo: true,
+          username: true,
         },
       },
     },
