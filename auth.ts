@@ -1,4 +1,5 @@
 import NextAuth from "next-auth"
+import authConfig from "./auth.config"
 import type { Provider } from "next-auth/providers"
 import type { Session } from "next-auth"
 import type { JWT } from "next-auth/jwt"
@@ -8,7 +9,7 @@ import { PrismaClient as PrismaClientModule } from "@prisma/client"
 // import { saltAndHashPassword } from "@/utils/password"
 // import { getUserFromDb } from "@/utils/db"
 // import Credentials from "next-auth/providers/credentials"
-import Resend from "next-auth/providers/resend"
+import Nodemailer from "next-auth/providers/nodemailer"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
 // import Naver from "next-auth/providers/naver"
@@ -95,8 +96,9 @@ const providers: Provider[] = [
   GitHub,
   // Naver,
   // Kakao,
-  Resend({
-    from: process.env.AUTH_RESEND_FROM,
+  Nodemailer({
+    server: process.env.EMAIL_SERVER,
+    from: process.env.EMAIL_FROM,
   }),
 ]
 
@@ -124,6 +126,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: false,
   adapter: PrismaAdapter(prisma as PrismaClientModule),
   session: { strategy: "jwt" },
+  ...authConfig,
   providers,
   callbacks: {
     async jwt({ token, user, trigger, session: newData }) {
