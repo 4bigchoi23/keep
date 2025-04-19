@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   let image = '';
 
   if (q.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)) {
-    const data = await fetch(q);
+    const data = await fetch(q, { cache: 'no-store' });
     const html = await data.text();
     const dom = new JSDOM(html);
     const doc = dom?.window?.document;
