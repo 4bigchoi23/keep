@@ -79,7 +79,7 @@ export default function KeepItem({
   }
 
   return(
-    <Card className={`group gap-3 shadow-none hover:bg-(--card)/50 transition-all duration-500 ease-in-out ${each === undefined && 'h-full'} ${isDeleted && 'opacity-25 grayscale pointer-events-none'}`}>
+    <Card className={`group gap-3 hover:bg-(--card)/50 transition-all duration-500 ease-in-out ${each === undefined && 'h-full'} ${isDeleted && 'opacity-25 grayscale pointer-events-none'}`}>
       <CardHeader className="pt-0">
         <div className="relative aspect-video overflow-hidden rounded-md flex flex-col justify-center items-center bg-neutral-100 dark:bg-neutral-950">
           <div className={`absolute top-0 right-0 bottom-0 left-0 bg-no-repeat bg-cover bg-center transition-transform ease-in-out duration-250 group-hover:scale-125`} style={{ backgroundImage: `url(${keep?.image ?? ''})` }}></div>
