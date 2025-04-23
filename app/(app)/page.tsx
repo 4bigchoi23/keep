@@ -84,7 +84,7 @@ export default async function Home(props: {
     },
     orderBy: [
       {
-        createdAt: 'desc',
+        id: 'desc',
       },
     ],
   });

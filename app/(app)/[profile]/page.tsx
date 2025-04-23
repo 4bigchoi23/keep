@@ -124,7 +124,7 @@ export default async function Profile({
     },
     orderBy: [
       {
-        createdAt: 'desc',
+        id: 'desc',
       },
     ],
   });
