@@ -25,7 +25,7 @@ export default function KeepCard() {
   const animate = false && 'animate-pulse';
 
   return(
-    <Card className="gap-3 h-full shadow-none hover:bg-(--card)/50">
+    <Card className="gap-3 h-full hover:bg-(--card)/50">
       <CardHeader className="pt-0">
         <div className="relative aspect-video overflow-hidden rounded-md flex justify-center items-center bg-neutral-100 dark:bg-neutral-950">
           <div className={`absolute top-0 right-0 bottom-0 left-0 bg-no-repeat bg-cover bg-center`} style={{ backgroundImage: `url()` }}></div>
