@@ -132,6 +132,9 @@ export default async function Profile({
   return (
     <>
       <div className="border-b bg-linear-[130deg,var(--accent),var(--primary-foreground),var(--accent)]">
+        <div className="relative m-auto -mb-10 size-28">
+          <div className="absolute -top-8 overflow-hidden size-full rounded-full bg-muted flex justify-center items-center bg-center bg-cover bg-no-repeat" style={{ backgroundImage: `url(${userinfo?.photo ?? '/pfimg.svg'})` }}></div>
+        </div>
         <div className="section text-center">
           <div className="my-5 text-4xl">
             {username ?? 'johndoe'}&apos;s profile
