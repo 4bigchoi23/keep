@@ -11,11 +11,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import {
   LucideImageOff,
   LucideEarth,
   LucideTrash2,
@@ -76,10 +71,7 @@ export default function KeepMock({
                     </CardFooter>
                     <CardFooter>
                       <div className="w-full flex items-center justify-start gap-3 truncate">
-                        <Avatar className="shrink-0">
-                          <AvatarImage src="/pfimg.svg" />
-                          <AvatarFallback></AvatarFallback>
-                        </Avatar>
+                        <div className="avatar" style={{ backgroundImage: `url(/pfimg.svg)` }}></div>
                         <div className="flex flex-col gap-1 truncate w-full">
                           <div className="text-sm/3 font-medium text-neutral-600 dark:text-neutral-400">
                             You

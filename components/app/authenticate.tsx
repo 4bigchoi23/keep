@@ -1,11 +1,6 @@
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -35,10 +30,7 @@ export default async function Auth() {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
-              <Avatar>
-                <AvatarImage src={session?.user?.photo ?? '/pfimg.svg'} />
-                <AvatarFallback></AvatarFallback>
-              </Avatar>
+              <div className="avatar" style={{ backgroundImage: `url(${session?.user?.photo ?? '/pfimg.svg'})` }}></div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-38" align="end" sideOffset={10}>
               <DropdownMenuLabel className="cursor-default">
