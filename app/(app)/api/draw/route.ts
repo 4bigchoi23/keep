@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
           break;
       }
 
-      if (v) {
+      if (v && process.env.GOOGLE_TOKEN) {
         const tube = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${v}&key=${process.env.GOOGLE_TOKEN}`);
         const json = await tube.json();
         const snippet = json?.items?.[0]?.snippet;
