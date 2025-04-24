@@ -1,11 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import {
   Card,
   CardHeader,
   CardFooter,
@@ -50,10 +45,9 @@ export default async function SettingsLayout({
                 <Card className="">
                   <CardHeader>
                     <div className="w-full flex items-center justify-start gap-3 truncate">
-                      <Avatar className="shrink-0">
-                        <AvatarImage src={session?.user?.photo ?? `/pfimg.svg`} />
-                        <AvatarFallback></AvatarFallback>
-                      </Avatar>
+                      <div className="flex-0">
+                        <div className="avatar" style={{ backgroundImage: `url(${session?.user?.photo ?? '/pfimg.svg'})` }}></div>
+                      </div>
                       <div className="flex flex-col truncate">
                         <div className="text-base/4 font-medium text-neutral-600 dark:text-neutral-400 truncate">
                           {session?.user?.nick ?? session?.user?.name ?? `You`}
