@@ -30,23 +30,33 @@ export default function KeepPagination({
 
   const pageGroup = pagesCount * 2 + 1;
 
-  const startPage = totalPages >= pageGroup && currentPage - pagesCount > 0 
-      ? (currentPage - pagesCount) - 
-          (
-            pageGroup < totalPages && currentPage + pagesCount > totalPages 
-              ? currentPage + pagesCount - totalPages 
-              : 0
-          )
-      : 1;
+  const startPage = totalPages <= pageGroup
+    ? 1
+    : (
+        currentPage - pagesCount <= 0
+          ? 1
+          : (
+              (currentPage - pagesCount) - (
+                currentPage + pagesCount <= totalPages
+                  ? 0
+                  : currentPage + pagesCount - totalPages
+              )
+            )
+      );
 
-  const endPage = totalPages >= pageGroup && currentPage + pagesCount < totalPages 
-      ? (currentPage + pagesCount) + 
-          (
-            pageGroup < totalPages && pagesCount - currentPage >= 0 
-            ? pagesCount - currentPage + 1 
-            : 0
-          )
-      : totalPages;
+  const endPage = totalPages <= pageGroup
+    ? totalPages
+    : (
+        currentPage + pagesCount > totalPages
+          ? totalPages
+          : (
+              (currentPage + pagesCount) + (
+                currentPage - pagesCount > 0
+                  ? 0
+                  : pagesCount - currentPage + 1
+              )
+            )
+      );
 
   const pages = [];
   for ( let i = startPage; i <= endPage; i++ ) {
