@@ -1,9 +1,5 @@
 // import Link from 'next/link';
-import KeepList from '@/components/app/keep-list';
-import KeepMock from '@/components/app/keep-mock';
-import KeepNumber from '@/components/app/keep-number';
-import KeepSearch from '@/components/app/keep-search';
-import KeepPagination from '@/components/app/keep-pagination';
+import KeepWrap from "@/components/app/keep-wrap";
 
 import {
   LucideCircleUser,
@@ -13,14 +9,10 @@ import {
 
 import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
-import { Suspense } from 'react';
 import { PrismaClient } from '@/prisma/client';
 const prisma = new PrismaClient();
 
-export default async function Profile({
-  params,
-  searchParams,
-} : {
+export default async function Profile(props: {
   params: Promise<{ profile: string }>;
   searchParams?: Promise<{
     query?: string;
@@ -28,8 +20,11 @@ export default async function Profile({
   }>;
 }) {
   const session = await auth();
-  const { profile } = await params;
+  const search = await props.searchParams;
+  const query = search?.query || '';
+  const page = Number(search?.page) || 1;
 
+  const { profile } = await props.params;
   const username = profile;
   const userinfo = await prisma.user.findFirst({
     select: {
@@ -47,86 +42,6 @@ export default async function Profile({
         },
       },
     },
-  });
-
-  const search = await searchParams;
-  const query = search?.query || '';
-  const currentPage = Number(search?.page) || 1;
-
-  const itemsCount = 12;
-  const pagesCount = 2;
-  const totalItems = await prisma.keep.count({
-    where: {
-      AND: [
-        {
-          user: {
-            username: `${username}`,
-          },
-        },
-      ],
-      OR: [
-        {
-          title: {
-            contains: `${query}`,
-          },
-        },
-        {
-          description: {
-            contains: `${query}`,
-          },
-        },
-        {
-          url: {
-            contains: `${query}`,
-          },
-        }
-      ],
-    },
-  });
-  const totalPages = Math.ceil(totalItems / itemsCount);
-
-  const keeps = await prisma.keep.findMany({
-    skip: (currentPage - 1) * itemsCount,
-    take: itemsCount,
-    include: {
-      user: {
-        select: {
-          nick: true,
-          photo: true,
-        },
-      },
-    },
-    where: {
-      AND: [
-        {
-          user: {
-            username: `${username}`,
-          },
-        },
-      ],
-      OR: [
-        {
-          title: {
-            contains: `${query}`,
-          },
-        },
-        {
-          description: {
-            contains: `${query}`,
-          },
-        },
-        {
-          url: {
-            contains: `${query}`,
-          },
-        }
-      ],
-    },
-    orderBy: [
-      {
-        id: 'desc',
-      },
-    ],
   });
 
   return (
@@ -168,26 +83,16 @@ export default async function Profile({
 
       <div className="section">
         <div className="my-5">
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center">
-              <div>
-                <KeepNumber count={totalItems} />
-              </div>
-              <div>
-                <KeepSearch placeholder="Search..." />
-              </div>
-            </div>
-            <div>
-              <SessionProvider>
-                <Suspense key={query + currentPage} fallback={<KeepMock count={itemsCount} />}>
-                  <KeepList session={session} keeps={keeps} />
-                </Suspense>
-              </SessionProvider>
-            </div>
-            <div className="my-2">
-              <KeepPagination totalPages={totalPages} pagesCount={pagesCount} />
-            </div>
-          </div>
+          <SessionProvider>
+            <KeepWrap 
+              session={session}
+              username={username}
+              query={query}
+              page={page}
+              itemsCount={12}
+              pagesCount={2}
+            />
+          </SessionProvider>
         </div>
       </div>
     </>
