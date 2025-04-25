@@ -224,7 +224,7 @@ export default function KeepForm() {
                 ? <LucideBookmark />
                 : <LucideLoader2 className="animate-spin" />
               }
-              Submit <Badge className="bg-muted-foreground"><kbd>Alt</kbd> + <kbd>S</kbd></Badge>
+              Submit <Badge className="bg-muted-foreground/25 text-muted/75"><kbd>Alt</kbd> + <kbd>S</kbd></Badge>
             </Button>
             <Button 
               type="button" 

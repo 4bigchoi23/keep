@@ -98,7 +98,7 @@ export default function KeepItem({
           <div className="flex justify-start items-center gap-2">
             <div className="flex-none relative size-5 overflow-hidden flex flex-col justify-center items-center">
               <div className={`absolute top-0 right-0 bottom-0 left-0 bg-no-repeat bg-cover bg-center`} style={{ backgroundImage: `url(https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${encodeURIComponent(keep?.url ?? '')})` }}></div>
-              <LucideEarth size={20} className="opacity-100" />
+              <LucideEarth size={20} className="opacity-0" />
             </div>
             <div className="flex-1 min-w-0">
               <div className="truncate">
