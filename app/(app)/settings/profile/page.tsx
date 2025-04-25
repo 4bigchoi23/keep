@@ -209,7 +209,7 @@ export default function SettingsProfile() {
                     If you&apos;re out of ideas, just {" "}
                     <Dialog open={openAvatar} onOpenChange={setOpenAvatar}>
                       <DialogTrigger 
-                        className="uppercase text-indigo-500 dark:text-sky-500 hover:underline"
+                        className="uppercase text-blue-600 dark:text-blue-400 hover:underline"
                       >
                         choose
                       </DialogTrigger>  
