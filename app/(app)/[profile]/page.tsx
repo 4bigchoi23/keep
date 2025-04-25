@@ -184,11 +184,10 @@ export default async function Profile({
                 </Suspense>
               </SessionProvider>
             </div>
+            <div className="my-2">
+              <KeepPagination totalPages={totalPages} pagesCount={pagesCount} />
+            </div>
           </div>
-        </div>
-
-        <div className="my-5">
-          <KeepPagination totalPages={totalPages} pagesCount={pagesCount} />
         </div>
       </div>
     </>
