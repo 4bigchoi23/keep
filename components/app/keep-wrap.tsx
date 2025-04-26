@@ -54,9 +54,10 @@ export default async function KeepWrap(props: {
   });
   const totalPages = Math.ceil(totalItems / itemsCount);
 
-  const keeps = await prisma.keep.findMany({
+  // don't await the data fetching function
+  const keeps = prisma.keep.findMany({
     skip: (page - 1) * itemsCount,
-    take: itemsCount ?? 12,
+    take: itemsCount,
     include: {
       user: {
         select: {
@@ -85,7 +86,7 @@ export default async function KeepWrap(props: {
         },
         {
           url: {
-            contains: `${query }`,
+            contains: `${query}`,
           },
         }
       ],
