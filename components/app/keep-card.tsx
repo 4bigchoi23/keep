@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export default function KeepCard() {
-  const animate = false && 'animate-pulse';
+  const animate = true && 'animate-pulse';
 
   return(
     <Card className="gap-3 h-full hover:bg-(--card)/50">
