@@ -15,18 +15,23 @@ import {
   LucideChevronsRight,
 } from "lucide-react";
 
+import { use } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function KeepPagination({
-  totalPages,
+  totalItems,
+  itemsCount,
   pagesCount,
 }: {
-  totalPages: number;
+  totalItems: Promise<number>;
+  itemsCount: number;
   pagesCount: number;
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
+  const totalCount = use(totalItems);
+  const totalPages = Math.ceil(totalCount / itemsCount);
 
   const pageGroup = pagesCount * 2 + 1;
 
