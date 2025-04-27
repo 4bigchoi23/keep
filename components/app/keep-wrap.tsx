@@ -106,7 +106,7 @@ export default async function KeepWrap(props: {
           <Suspense key={query + page} fallback={<></>}>
             <KeepNumber totalItems={totalItems} />
           </Suspense>
-          </div>
+        </div>
         <div className="">
           <KeepSearch placeholder="Search..." />
         </div>
