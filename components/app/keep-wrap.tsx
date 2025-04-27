@@ -26,7 +26,9 @@ export default async function KeepWrap(props: {
   const page = props.page || 1;
   const itemsCount = props.itemsCount || 12;
   const pagesCount = props.pagesCount || 2;
-  const totalItems = await prisma.keep.count({
+
+  // don't await the data fetching function
+  const totalItems = prisma.keep.count({
     where: {
       AND: [
         {
@@ -52,7 +54,6 @@ export default async function KeepWrap(props: {
       ],
     },
   });
-  const totalPages = Math.ceil(totalItems / itemsCount);
 
   // don't await the data fetching function
   const keeps = prisma.keep.findMany({
@@ -102,8 +103,10 @@ export default async function KeepWrap(props: {
     <div className="flex flex-col gap-3">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-center">
         <div className="lg:col-span-2">
-          <KeepNumber count={totalItems} />
-        </div>
+          <Suspense key={query + page} fallback={<></>}>
+            <KeepNumber totalItems={totalItems} />
+          </Suspense>
+          </div>
         <div className="">
           <KeepSearch placeholder="Search..." />
         </div>
@@ -116,7 +119,9 @@ export default async function KeepWrap(props: {
         </SessionProvider>
       </div>
       <div className="my-2">
-        <KeepPagination totalPages={totalPages} pagesCount={pagesCount} />
+        <Suspense key={query + page} fallback={<></>}>
+          <KeepPagination totalItems={totalItems} itemsCount={itemsCount} pagesCount={pagesCount} />
+        </Suspense>
       </div>
     </div>
   );
