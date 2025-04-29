@@ -158,7 +158,6 @@
   body {
     @apply bg-background text-foreground;
     @apply font-body;
-
     #app {
       @apply flex flex-col min-h-screen;
     }
@@ -171,15 +170,20 @@
     }
   }
   button, [role="button"] {
-    cursor: pointer;
+    @apply cursor-pointer;
+  }
+  [data-slot="dialog-overlay"],
+  [data-slot="alert-dialog-overlay"],
+  [data-slot="drawer-overlay"],
+  [data-slot="sheet-overlay"] {
+    @apply backdrop-blur;
   }
 }
 
 .keep {
   @apply block m-0 font-logo text-[2.25rem] uppercase font-[900] leading-none tracking-[-0.075em];
-
   .keep-link {
-    @apply flex items-center text-[transparent] no-underline;
+    @apply flex items-center text-transparent no-underline;
   }
   .keep-mark {
     @apply block w-[30px] h-[30px] bg-[var(--foreground)] mr-[10px];
