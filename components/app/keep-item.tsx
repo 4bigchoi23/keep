@@ -12,9 +12,31 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   LucideImageOff,
   LucideEarth,
   LucideTrash2,
+  LucideSquarePen,
+  LucideFlag,
+  LucideThumbsUp,
+  LucideThumbsDown,
+  LucideEllipsisVertical,
 } from "lucide-react";
 
 import type { Session } from 'next-auth';
@@ -45,7 +67,11 @@ export default function KeepItem({
   each?: boolean | null;
 }) {
   // const router = useRouter();
+  const isManager = session?.user?.role === 'admin';
+  const isCreator = keep?.userId === session?.user?.id;
   const [isDeleted, setIsDeleted] = useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+  const [openDialogReport, setOpenDialogReport] = useState(false);
 
   useEffect(() => {
   }, []);
@@ -66,6 +92,20 @@ export default function KeepItem({
       } else {
         toast.error("Failed to delete Keep.", {
           description: `[${res.status}][${res.statusText}] ${result.error}`,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function onReport(id: number) {
+    try {
+      if (false) {
+        console.log(id);
+      } else {
+        toast.error("Failed to report Keep.", {
+          description: `Sorry, still in development.`,
         });
       }
     } catch (error) {
@@ -140,17 +180,96 @@ export default function KeepItem({
               {new Date(keep?.createdAt ?? '').toUTCString()}
             </div>
           </div>
-          {(keep?.userId === session?.user?.id || session?.user?.role === 'admin') &&
-            <Button 
-              variant="link" 
-              size="icon" 
-              className="ml-auto text-red-500" 
-              onClick={() => onDelete(keep?.id ?? 0)} 
-              disabled={isDeleted} 
-            >
-              <LucideTrash2 size={16} />
-            </Button>
-          }
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="link"
+                size="icon"
+                className="focus-visible:ring-0 focus-visible:bg-muted/50"
+              >
+                <LucideEllipsisVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align="end">
+              <DropdownMenuItem
+                disabled={isDeleted || isCreator || !session || true}
+                className="cursor-pointer"
+              >
+                <LucideThumbsUp />
+                Like
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={isDeleted || isCreator || !session || true}
+                className="cursor-pointer"
+              >
+                <LucideThumbsDown />
+                Hate
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                // onClick={() => onReport(keep?.id ?? 0)}
+                onClick={() => setOpenDialogReport(true)}
+                disabled={isDeleted || isCreator || !session || true}
+                className="cursor-pointer"
+              >
+                <LucideFlag />
+                Report
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                disabled={isDeleted || !(isCreator) || true}
+                className="cursor-pointer"
+              >
+                <LucideSquarePen />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                // onClick={() => onDelete(keep?.id ?? 0)}
+                onClick={() => setOpenDialogDelete(true)}
+                disabled={isDeleted || !(isCreator || isManager)}
+                className="cursor-pointer"
+              >
+                <LucideTrash2 />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialog open={openDialogDelete} onOpenChange={setOpenDialogDelete}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. 
+                  This will permanently delete your account 
+                  and remove your data from our servers. 
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => onDelete(keep?.id ?? 0)}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <AlertDialog open={openDialogReport} onOpenChange={setOpenDialogReport}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Thanks for looking out for our 
+                  by reporting things that break the rules. 
+                  Let us know what&apos;s happening, 
+                  and we&apos;ll look into it. 
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => onReport(keep?.id ?? 0)}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </CardFooter>
     </Card>

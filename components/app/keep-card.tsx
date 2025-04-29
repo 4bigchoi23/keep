@@ -11,9 +11,21 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
   LucideImageOff,
   LucideEarth,
   LucideTrash2,
+  LucideSquarePen,
+  LucideFlag,
+  LucideThumbsUp,
+  LucideThumbsDown,
+  LucideEllipsisVertical,
 } from "lucide-react";
 
 export default function KeepCard() {
@@ -100,16 +112,50 @@ export default function KeepCard() {
               </div>
             </div>
           </div>
-          {(true) &&
-            <Button 
-              variant="link" 
-              size="icon" 
-              className="ml-auto text-red-500" 
-              onClick={(e) => e.preventDefault()} 
-            >
-              <LucideTrash2 size={16} />
-            </Button>
-          }
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="link"
+                size="icon"
+                className="focus-visible:ring-0 focus-visible:bg-muted/50"
+              >
+                <LucideEllipsisVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align="end">
+              <DropdownMenuItem
+                className="cursor-pointer"
+              >
+                <LucideThumbsUp />
+                Like
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+              >
+                <LucideThumbsDown />
+                Hate
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+              >
+                <LucideFlag />
+                Report
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+              >
+                <LucideSquarePen />
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+              >
+                <LucideTrash2 />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </CardFooter>
     </Card>
