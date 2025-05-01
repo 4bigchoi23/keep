@@ -11,7 +11,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Geist", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-serif: "Geist", "Noto Serif KR", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: "Geist Mono", "Noto Sans KR", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-body: var(--font-mono);
@@ -180,30 +180,33 @@
   }
 }
 
-.keep {
-  @apply block m-0 font-logo text-[2.25rem] uppercase font-[900] leading-none tracking-[-0.075em];
-  .keep-link {
-    @apply flex items-center text-transparent no-underline;
+@layer components {
+  .logo {}
+  .keep {
+    @apply block m-0 font-logo text-[2.25rem] uppercase font-[900] leading-none tracking-[-0.075em];
+    .keep-link {
+      @apply flex items-center text-transparent no-underline;
+    }
+    .keep-mark {
+      @apply block w-[30px] h-[30px] bg-[var(--foreground)] mr-[10px];
+      mask: url(/keep.svg) no-repeat center / contain;
+    }
+    .keep-font {
+      @apply bg-clip-text bg-linear-[130deg,var(--foreground),var(--muted-foreground)] pr-1;
+    }
   }
-  .keep-mark {
-    @apply block w-[30px] h-[30px] bg-[var(--foreground)] mr-[10px];
-    mask: url(/keep.svg) no-repeat center / contain;
+
+  .section {
+    @apply w-full xl:w-6xl mx-auto p-4;
   }
-  .keep-font {
-    @apply bg-clip-text bg-linear-[130deg,var(--foreground),var(--muted-foreground)] pr-1;
+
+  .central {
+    @apply w-full min-h-screen flex justify-center items-center;
   }
-}
 
-.section {
-  @apply w-full xl:w-6xl mx-auto p-4;
-}
-
-.central {
-  @apply w-full min-h-screen flex justify-center items-center;
-}
-
-.avatar {
-  @apply overflow-hidden flex-none size-8 rounded-full object-cover;
-  @apply bg-muted bg-center bg-cover bg-no-repeat;
-  @apply flex justify-center items-center text-xs/4 text-foreground/50;
+  .avatar {
+    @apply overflow-hidden flex-none size-8 rounded-full object-cover;
+    @apply bg-muted bg-center bg-cover bg-no-repeat;
+    @apply flex justify-center items-center text-xs/4 text-foreground/50;
+  }
 }
