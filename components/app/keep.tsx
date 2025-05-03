@@ -14,7 +14,7 @@ export default function Keep({
     >
       <Link href="/" className="keep-link">
         <span className="keep-mark"></span>
-        <span className="keep-font">KEEP</span>
+        <span className="keep-type"></span>
       </Link>
     </h1>
   );

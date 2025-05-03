@@ -3,7 +3,9 @@
 /* @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -12,13 +14,13 @@
 
 @theme inline {
   --font-sans: "Geist", "Noto Sans KR", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-serif: "Geist", "Noto Serif KR", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif: "Merriweather", "Noto Serif KR", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: "Geist Mono", "Noto Sans KR", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-body: var(--font-mono);
-  --font-logo: "Montserrat", sans-serif;
+  --font-logo: "Montserrat", "Do Hyeon", sans-serif;
 
-  --color-major: #64acff;
-  --color-minor: #a2facf;
+  --color-major: var(--color-blue-600);
+  --color-minor: var(--color-cyan-500);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -183,16 +185,20 @@
 @layer components {
   .logo {}
   .keep {
-    @apply block m-0 font-logo text-[2.25rem] uppercase font-[900] leading-none tracking-[-0.075em];
+    @apply block m-0 font-logo text-[36px] uppercase font-[900] leading-[32px] tracking-[-0.075em];
     .keep-link {
       @apply flex items-center text-transparent no-underline;
     }
     .keep-mark {
-      @apply block w-[30px] h-[30px] bg-[var(--foreground)] mr-[10px];
+      @apply block w-[32px] h-[32px] bg-[var(--foreground)] mr-2;
       mask: url(/keep.svg) no-repeat center / contain;
     }
-    .keep-font {
+    .keep-type {
       @apply bg-clip-text bg-linear-[130deg,var(--foreground),var(--muted-foreground)] pr-1;
+      &::after {
+        @apply block;
+        content: 'KEEP';
+      }
     }
   }
 
@@ -208,5 +214,13 @@
     @apply overflow-hidden flex-none size-8 rounded-full object-cover;
     @apply bg-muted bg-center bg-cover bg-no-repeat;
     @apply flex justify-center items-center text-xs/4 text-foreground/50;
+  }
+
+  .header {
+    @apply border-b border-neutral-200 dark:border-neutral-800;
+    @apply sticky z-10 top-0 bg-background/75 backdrop-blur-md;
+  }
+  .footer {
+    @apply border-t border-neutral-200 dark:border-neutral-800;
   }
 }

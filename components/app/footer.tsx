@@ -8,7 +8,7 @@ import ThemeToggle from "@/components/app/theme-toggle";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-neutral-200 dark:border-neutral-800">
+    <footer className="footer">
       <div className="section text-center">
         <div className="flex flex-col gap-1 justify-center items-center">
           <div>
