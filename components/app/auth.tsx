@@ -42,6 +42,7 @@ export default function Auth() {
         ) : (
           !session ? (
             <Button
+              size="sm"
               className=""
               onClick={() => signIn()}
             >

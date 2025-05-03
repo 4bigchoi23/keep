@@ -7,6 +7,7 @@ import { LucideCircleUser } from "lucide-react";
 export default function SignInButton() {
   return (
     <Button
+      size="sm"
       className=""
       onClick={() => signIn()}
     >
