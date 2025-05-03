@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link';
 import * as React from "react"
 import {
   ArrowUpCircleIcon,
@@ -19,10 +20,10 @@ import {
   UsersIcon,
 } from "lucide-react"
 
-import { NavDocuments } from "@/components/cms/nav-documents"
-import { NavMain } from "@/components/cms/nav-main"
-import { NavSecondary } from "@/components/cms/nav-secondary"
-import { NavUser } from "@/components/cms/nav-user"
+import { NavDocuments } from "@/components/non/admin/nav-documents"
+import { NavMain } from "@/components/non/admin/nav-main"
+import { NavSecondary } from "@/components/non/admin/nav-secondary"
+import { NavUser } from "@/components/non/admin/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -160,10 +161,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link href="/admin">
                 <ArrowUpCircleIcon className="h-5 w-5" />
                 <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

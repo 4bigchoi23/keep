@@ -4,6 +4,9 @@
 //   description: "",
 // };
 
+import Header from '@/components/app/header';
+import Footer from '@/components/app/footer';
+
 export default async function AppLayout({
   children,
 }: Readonly<{
@@ -11,7 +14,11 @@ export default async function AppLayout({
 }>) {
   return (
     <>
-      {children}
+      <Header />
+      <main>
+        {children}
+      </main>
+      <Footer />
     </>
   );
 }
