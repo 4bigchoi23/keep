@@ -2,11 +2,12 @@
 import { redirect } from 'next/navigation';
 import { auth } from "@/auth";
 
-import { AppSidebar } from "@/components/cms/app-sidebar"
-import { SiteHeader } from "@/components/cms/site-header"
+import { AppSidebar } from "@/components/non/admin/app-sidebar"
+import { SiteHeader } from "@/components/non/admin/site-header"
+import { SiteFooter } from "@/components/non/admin/site-footer"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
-export default async function RootLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -27,6 +28,7 @@ export default async function RootLayout({
             <div>
               {children}
             </div>
+            <SiteFooter />
           </SidebarInset>
         </SidebarProvider>
       </main>

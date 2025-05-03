@@ -9,18 +9,18 @@ import Auth from "@/components/app/authenticate"; // use server
 export default function Header() {
   return (
     <header className="border-b border-neutral-200 dark:border-neutral-800">
-    <div className="section">
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <Keep />
-        </div>
-        <div className="flex gap-2 items-center">
-          <SessionProvider>
-            <Auth />
-          </SessionProvider>
+      <div className="section">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2 items-center">
+            <Keep />
+          </div>
+          <div className="flex gap-2 items-center">
+            <SessionProvider>
+              <Auth />
+            </SessionProvider>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
   );
 }

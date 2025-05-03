@@ -4,7 +4,7 @@
 //   description: "",
 // };
 
-export default async function CMSLayout({
+export default async function NonLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
