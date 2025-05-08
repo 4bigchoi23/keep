@@ -196,7 +196,7 @@ export default function SettingsAccount() {
                     {profileUrl && 
                       <>
                         Your public profile address will probably look like this: {" "}
-                        <span className="text-green-600 dark:text-green-400">{host}/{profileUrl}</span>
+                        <span className="text-green-600 dark:text-green-400">{host}/user/{profileUrl}</span>
                       </>
                     }
                   </FormDescription>
