@@ -66,7 +66,7 @@ export default async function AuthSignIn(props: {
                   } catch (error) {
                     // console.log(error)
                     if (error instanceof AuthError) {
-                      return redirect(`${signinErrorURL}?error=${error.type}`)
+                      return redirect(`${signinErrorURL}?error=${error}`)
                     }
                     throw error
                   }
@@ -104,7 +104,7 @@ export default async function AuthSignIn(props: {
                       } catch (error) {
                         // console.log(error)
                         if (error instanceof AuthError) {
-                          return redirect(`${signinErrorURL}?error=${error.type}`)
+                          return redirect(`${signinErrorURL}?error=${error}`)
                         }
                         throw error
                       }
@@ -134,7 +134,7 @@ export default async function AuthSignIn(props: {
                       } catch (error) {
                         // console.log(error)
                         if (error instanceof AuthError) {
-                          return redirect(`${signinErrorURL}?error=${error.type}`)
+                          return redirect(`${signinErrorURL}?error=${error}`)
                         }
                         throw error
                       }

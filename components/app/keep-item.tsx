@@ -169,7 +169,7 @@ export default function KeepItem({
           <div className="flex flex-col gap-1 truncate w-full">
             <div className="text-sm/3 font-medium text-neutral-600 dark:text-neutral-400 flex gap-2 items-center">
               {keep?.user?.username ? (
-                <Link href={keep?.user?.username ? `/${keep?.user?.username}` : ``}>
+                <Link href={keep?.user?.username ? `/user/${keep?.user?.username}` : ``}>
                   <span className="hover:underline hover:text-green-600 dark:hover:text-green-400">{keep?.user?.nick ?? 'noname'}</span>
                 </Link>
               ) : (

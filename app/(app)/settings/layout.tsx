@@ -36,7 +36,7 @@ export default async function SettingsLayout({
       <div className="section">
         <div className="my-5">
           <div className="flex flex-col sm:flex-row gap-8">
-            <div className="flex-1 sm:flex-none">
+            <div className="flex-1 sm:flex-none sm:min-w-[220px]">
               <Card className="">
                 <CardHeader>
                   <div className="w-full flex items-center justify-start gap-3 truncate">

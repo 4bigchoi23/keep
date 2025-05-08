@@ -1,14 +1,23 @@
 // 'use client';
 
 // import Link from 'next/link';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 // import { SessionProvider } from "next-auth/react";
+
 // import ThemeSelect from "@/components/app/theme-select";
 // import ThemeSwitch from "@/components/app/theme-switch";
 import ThemeToggle from "@/components/app/theme-toggle";
 
-export default function Footer() {
+export default function Footer({
+  className,
+  ...props
+}: React.ComponentProps<"footer">) {
   return (
-    <footer className="footer">
+    <footer
+      className={cn("footer", className)}
+      {...props}
+    >
       <div className="section text-center">
         <div className="flex flex-col gap-1 justify-center items-center">
           <div>

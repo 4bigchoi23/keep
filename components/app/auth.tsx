@@ -60,9 +60,9 @@ export default function Auth() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
+                  <DropdownMenuItem asChild disabled={!session?.user?.username}>
                     <Link 
-                      href={`/${session?.user?.username ?? ''}`}
+                      href={`/user/${session?.user?.username ?? ''}`}
                       className="cursor-pointer" 
                     >
                       <LucideUser />
