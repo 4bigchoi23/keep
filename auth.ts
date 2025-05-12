@@ -130,6 +130,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers,
   callbacks: {
     async jwt({ token, user, trigger, session: newData }) {
+      delete user?.password;
+      delete user?.passsalt;
       // token = { ...token, ...user }
       if (trigger === 'update') {
         return { ...token, ...newData }
