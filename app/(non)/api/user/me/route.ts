@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from "@/auth";
 import { PrismaClient } from '@/prisma/client';
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  omit: {
+    user: {
+      password: true,
+      passsalt: true,
+    },
+  },
+});
 
 export async function GET(request: NextRequest) {
   const session = await auth();
