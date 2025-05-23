@@ -171,7 +171,7 @@ export default function SettingsAccount() {
     <div>
       <div className="border-b pb-3 mb-5">
         <h2 className="text-2xl">Account</h2>
-        <div className="text-sm/5 text-neutral-500 dark:text-neutral-600">
+        <div className="text-sm/5 text-muted-foreground/50">
           You can change the username for your account on KEEP.
         </div>
       </div>
@@ -235,7 +235,7 @@ export default function SettingsAccount() {
 
       <div className="border-b mb-5 pb-3 mt-8">
         <h2 className="text-2xl text-red-500">Delete account</h2>
-        <div className="text-sm/5 text-neutral-500 dark:text-neutral-600">
+        <div className="text-sm/5 text-muted-foreground/50">
           Once you delete your account, there is no going back. Please be certain.
         </div>
       </div>

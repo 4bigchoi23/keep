@@ -66,10 +66,10 @@ export default function SettingsNav({
               <div className="avatar" style={{ backgroundImage: `url(${session?.user?.photo ?? '/pfimg.svg'})` }}></div>
             </div>
             <div className="flex flex-col truncate">
-              <div className="text-base/4 font-medium text-neutral-600 dark:text-neutral-400 truncate">
+              <div className="text-base/4 font-medium text-muted-foreground truncate">
                 {session?.user?.nick ?? session?.user?.name ?? `You`}
               </div>
-              <div className="text-xs/4 text-neutral-600 dark:text-neutral-400 truncate">
+              <div className="text-xs/4 text-muted-foreground/50 truncate">
                 Personal settings
               </div>
             </div>

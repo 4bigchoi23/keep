@@ -32,7 +32,7 @@ export default async function AuthSignIn(props: {
   const signinErrorURL = '/auth/error';
   const formElementsCN = {
     label: 'sr-only',
-    input: 'w-full h-10 text-base md:text-base border-neutral-500/50 bg-transparent dark:bg-transparent focus-visible:ring-[1px]',
+    input: 'w-full h-10 text-base md:text-base focus-visible:ring-[1px]',
     button: 'w-full h-10 text-base flex justify-between items-center',
   };
 

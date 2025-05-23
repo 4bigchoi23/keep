@@ -178,17 +178,17 @@
   [data-slot="alert-dialog-overlay"],
   [data-slot="drawer-overlay"],
   [data-slot="sheet-overlay"] {
-    @apply backdrop-blur;
+    @apply backdrop-blur-xs;
   }
 }
 
 @layer components {
   .header {
-    @apply border-b border-neutral-200 dark:border-neutral-800;
+    @apply border-b border-border/50;
     @apply sticky z-10 top-0 bg-background/75 backdrop-blur-md;
   }
   .footer {
-    @apply border-t border-neutral-200 dark:border-neutral-800;
+    @apply border-t border-border/50;
   }
 
   .logo {}

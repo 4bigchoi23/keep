@@ -116,9 +116,9 @@ export default function KeepItem({
   return(
     <Card className={`group gap-3 hover:bg-(--card)/50 transition-all duration-500 ease-in-out ${each === undefined && 'h-full'} ${isDeleted && 'opacity-25 grayscale pointer-events-none'}`}>
       <CardHeader className="pt-0">
-        <div className="relative aspect-video overflow-hidden rounded-md flex flex-col justify-center items-center bg-neutral-100 dark:bg-neutral-950">
+        <div className="relative aspect-video overflow-hidden rounded-md flex flex-col justify-center items-center bg-zinc-200 dark:bg-zinc-950">
           <div className={`absolute top-0 right-0 bottom-0 left-0 bg-no-repeat bg-cover bg-center transition-transform ease-in-out duration-250 group-hover:scale-125`} style={{ backgroundImage: `url(${keep?.image ?? ''})` }}></div>
-          <LucideImageOff className="text-neutral-300 dark:text-neutral-700" />
+          <LucideImageOff className="text-muted-foreground/25" />
         </div>
       </CardHeader>
       <CardHeader>
@@ -156,7 +156,7 @@ export default function KeepItem({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="text-sm/4 text-neutral-500 line-clamp-5">
+        <div className="text-sm/4 text-muted-foreground line-clamp-5">
           {keep?.description ?? ''}
         </div>
       </CardContent>
@@ -167,7 +167,7 @@ export default function KeepItem({
         <div className="w-full flex items-center justify-start gap-3 truncate">
           <div className="avatar" style={{ backgroundImage: `url(${keep?.user?.photo ?? '/pfimg.svg'})` }}></div>
           <div className="flex flex-col gap-1 truncate w-full">
-            <div className="text-sm/3 font-medium text-neutral-600 dark:text-neutral-400 flex gap-2 items-center">
+            <div className="text-sm/3 font-medium text-zinc-600 dark:text-zinc-400 flex gap-2 items-center">
               {keep?.user?.username ? (
                 <Link href={keep?.user?.username ? `/user/${keep?.user?.username}` : ``}>
                   <span className="hover:underline hover:text-green-600 dark:hover:text-green-400">{keep?.user?.nick ?? 'noname'}</span>
@@ -176,7 +176,7 @@ export default function KeepItem({
                 <span>{keep?.user?.nick ?? 'noname'}</span>
               )}
             </div>
-            <div className="text-xs/3 text-neutral-600 dark:text-neutral-400 truncate">
+            <div className="text-xs/3 text-zinc-600 dark:text-zinc-400 truncate">
               {new Date(keep?.createdAt ?? '').toUTCString()}
             </div>
           </div>

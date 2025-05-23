@@ -54,7 +54,7 @@ export default async function Profile(props: {
           <div className="my-5 text-4xl">
             {username ?? 'johndoe'}&apos;s profile
           </div>
-          <div className="text-sm/5 text-neutral-500">
+          <div className="text-sm/5 text-muted-foreground">
             {userinfo?.bio || 'Bio, Bio, Bio!'}
           </div>
           <hr className="my-5" />

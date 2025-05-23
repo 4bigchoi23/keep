@@ -3,7 +3,7 @@ export default function SettingsExport() {
     <div>
       <div className="border-b pb-3 mb-5">
         <h2 className="text-2xl">Export</h2>
-        <div className="text-sm/5 text-neutral-500 dark:text-neutral-600">Export my bookmark</div>
+        <div className="text-sm/5 text-muted-foreground/50">Export my bookmark</div>
       </div>
       <div className="mt-5 mb-8">
         <p className="my-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur doloribus facere error omnis repellat quis non sapiente perspiciatis minima! Velit illo nisi maiores hic asperiores incidunt consequatur laborum quod nesciunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo rerum minus rem, accusantium ab sit repellendus sed, laborum aspernatur officia nisi ex quis cumque, illo iure voluptatem facere deleniti dolorem!</p>

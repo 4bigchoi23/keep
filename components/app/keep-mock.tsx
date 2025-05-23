@@ -41,9 +41,9 @@ export default function KeepMock({
               <div key={key}>
                 <Card className="gap-3 h-full">
                   <CardHeader className="pt-0">
-                    <div className="relative aspect-video overflow-hidden rounded-md flex justify-center items-center bg-neutral-100 dark:bg-neutral-950">
+                    <div className="relative aspect-video overflow-hidden rounded-md flex justify-center items-center bg-zinc-200 dark:bg-zinc-950">
                       <div className={`absolute top-0 right-0 bottom-0 left-0 bg-no-repeat bg-cover bg-center`} style={{ backgroundImage: `url(https://as2.ftcdn.net/v2/jpg/11/45/30/23/1000_F_1145302374_76c8gXDXUGPH1yKMAQobG1NYd7fLHq8i.jpg)` }}></div>
-                      <LucideImageOff className="text-neutral-300 dark:text-neutral-700" />
+                      <LucideImageOff className="text-muted-foreground/25" />
                     </div>
                   </CardHeader>
                   <CardHeader>
@@ -64,7 +64,7 @@ export default function KeepMock({
                       </div>
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="text-sm/4 text-neutral-500 line-clamp-5">
+                  <CardContent className="text-sm/4 text-muted-foreground line-clamp-5">
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia dolor aut adipisci.
                   </CardContent>
                   <CardFooter className="mt-auto">
@@ -74,10 +74,10 @@ export default function KeepMock({
                     <div className="w-full flex items-center justify-start gap-3 truncate">
                       <div className="avatar" style={{ backgroundImage: `url(/pfimg.svg)` }}></div>
                       <div className="flex flex-col gap-1 truncate w-full">
-                        <div className="text-sm/3 font-medium text-neutral-600 dark:text-neutral-400">
+                        <div className="text-sm/3 font-medium text-zinc-600 dark:text-zinc-400">
                           You
                         </div>
-                        <div className="text-xs/3 text-neutral-600 dark:text-neutral-400 truncate">
+                        <div className="text-xs/3 text-zinc-600 dark:text-zinc-400 truncate">
                           {new Date().toUTCString()}
                         </div>
                       </div>

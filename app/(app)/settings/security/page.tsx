@@ -94,7 +94,7 @@ export default function SettingsSecurity() {
     <div>
       <div className="border-b pb-3 mb-5">
         <h2 className="text-2xl">Security</h2>
-        <div className="text-sm/5 text-neutral-500 dark:text-neutral-600">
+        <div className="text-sm/5 text-muted-foreground/50">
           Strengthen your account by ensuring your password is strong.
         </div>
       </div>

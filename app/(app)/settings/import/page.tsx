@@ -3,7 +3,7 @@ export default function SettingsImport() {
     <div>
       <div className="border-b pb-3 mb-5">
         <h2 className="text-2xl">Import</h2>
-        <div className="text-sm/5 text-neutral-500 dark:text-neutral-600">Import my bookmark</div>
+        <div className="text-sm/5 text-muted-foreground/50">Import my bookmark</div>
       </div>
       <div className="mt-5 mb-8">
         <p className="my-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nisi dolore qui nulla amet quos, fuga eligendi, assumenda ex nam sed sint aliquam numquam dolores ducimus quae, maiores dicta voluptatum asperiores. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi culpa impedit quas qui. Quaerat libero minima dicta repellendus voluptates amet fugiat dignissimos soluta. Odit laborum ipsa fugit adipisci illum totam!</p>
